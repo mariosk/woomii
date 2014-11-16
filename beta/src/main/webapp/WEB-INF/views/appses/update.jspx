@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_woomii_beta_frontend_apps_Apps" modelAttribute="apps" path="/appses" versionField="Version" z="b/dx/XV3z8tdwAGMOpWH1MuikAc=">
+        <field:textarea field="app_id" id="c_com_woomii_beta_frontend_apps_Apps_app_id" required="true" z="E3fiZ4si8rusxIdrlXJI7IffY7k="/>
+        <field:select field="customer" id="c_com_woomii_beta_frontend_apps_Apps_customer" itemValue="id" items="${customerses}" path="/customerses" z="lf7UPR8CMQNze7R6mxKHpZdcFYg="/>
+        <field:checkbox field="sandbox_mode" id="c_com_woomii_beta_frontend_apps_Apps_sandbox_mode" z="Botbhxk1j6Z509p6mR8+Ep+JxYo="/>
+        <field:datetime dateTimePattern="${apps_sandbox_mode_changed_date_format}" field="sandbox_mode_changed" id="c_com_woomii_beta_frontend_apps_Apps_sandbox_mode_changed" z="pp9vXco9Iq6Vicy8/qeFbnQVrU4="/>
+        <field:textarea field="bundle_id" id="c_com_woomii_beta_frontend_apps_Apps_bundle_id" required="true" z="5f8oMegowGMiXihzPPQQIm51vh4="/>
+        <field:input field="sdk_version" id="c_com_woomii_beta_frontend_apps_Apps_sdk_version" max="16" z="S/FHuDsqAVXpQOusftaKHi869ac="/>
+        <field:input field="rate" id="c_com_woomii_beta_frontend_apps_Apps_rate" z="6XhmF+nQRnYqtkogczvq60Snf4U="/>
+        <field:textarea field="description" id="c_com_woomii_beta_frontend_apps_Apps_description" z="fzlF3lYXME3vyTPI0OcZHUhbvg8="/>
+        <field:textarea field="logo" id="c_com_woomii_beta_frontend_apps_Apps_logo" z="hmXEer9wdcrJpoPGH67vkJcc4fM="/>
+    </form:update>
+</div>

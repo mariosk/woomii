@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_backend_demographics_Demographics" items="${demographicses}" z="otYSlhCNdg9yrK1ROD6jhf3HxUE=">
+        <table:table data="${demographicses}" id="l_com_woomii_beta_backend_demographics_Demographics" path="/demographicses" z="ZDSV4XgvCu3MalB+rHuT4AOuQxA=">
+            <table:column id="c_com_woomii_beta_backend_demographics_Demographics_enduser" property="enduser" z="KkO1EwzKLVJML4oZi9YtgMPV+h8="/>
+            <table:column id="c_com_woomii_beta_backend_demographics_Demographics_sex" property="sex" z="7yFPj2UOpAdTs90Meo4ybM6k5wY="/>
+            <table:column id="c_com_woomii_beta_backend_demographics_Demographics_age" property="age" z="K+LyquNr6yynZd+jzfm8MMBshWg="/>
+            <table:column id="c_com_woomii_beta_backend_demographics_Demographics_name" property="name" z="Z1wpMp8s71SpYiutZvsHgQ3oN50="/>
+            <table:column id="c_com_woomii_beta_backend_demographics_Demographics_fb_id" property="fb_id" z="cGGldlqyoVI0a0JD3OazH13MqLk="/>
+            <table:column id="c_com_woomii_beta_backend_demographics_Demographics_mobile" property="mobile" z="Mr1eglF5q5jAg0gVBw9Snh5Kj1w="/>
+        </table:table>
+    </page:list>
+</div>

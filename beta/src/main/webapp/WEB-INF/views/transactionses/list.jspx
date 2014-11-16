@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_backend_transactions_Transactions" items="${transactionses}" z="1EkLFw0nlGY2ATUF/na9MGpQ3r0=">
+        <table:table data="${transactionses}" id="l_com_woomii_beta_backend_transactions_Transactions" path="/transactionses" z="oAb8gruwYOFFfYuiyAW0I/mbo7c=">
+            <table:column id="c_com_woomii_beta_backend_transactions_Transactions_campaign" property="campaign" z="FUgyMOl+EyUdT6wt90HgVNMiAXs="/>
+            <table:column id="c_com_woomii_beta_backend_transactions_Transactions_app" property="app" z="Op+sFYa/xu/OuBvdUgcgk83JDcg="/>
+            <table:column date="true" dateTimePattern="${transactions_created_date_format}" id="c_com_woomii_beta_backend_transactions_Transactions_created" property="created" z="mePHz5F56ST0q/2qCanNeNZdtF0="/>
+            <table:column id="c_com_woomii_beta_backend_transactions_Transactions_uuid_a" property="uuid_a" z="UKvGL6BuKnAy3Z9AmNw4WkM6hPQ="/>
+            <table:column id="c_com_woomii_beta_backend_transactions_Transactions_uuid_b" property="uuid_b" z="gf5XVucyb63MnTW40R24XW1Xc/s="/>
+            <table:column id="c_com_woomii_beta_backend_transactions_Transactions_type" property="type" z="XZ7W+PN2sDlVwJBB7VCjgHyZkOQ="/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
+        <menu:category id="c_translations" z="aTWDelWW/tPTeD1dFuFiJYPl6yM=">
+            <menu:item id="i_translations_new" messageCode="global_menu_new" url="/translationses?form" z="ZB7L1dYZSd5umNi0r19vPL8m/hk="/>
+            <menu:item id="i_translations_list" messageCode="global_menu_list" url="/translationses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="/ee6Qv/0OXa0GBwn8AtEd+DYbKg="/>
+        </menu:category>
+        <menu:category id="c_impressions" z="ztDrAQOwCjTAkWuohrOm3PxdjyA=">
+            <menu:item id="i_impressions_new" messageCode="global_menu_new" url="/impressionses?form" z="NISPhtqAm+K7Sk8GtCiGWMY8Tug="/>
+            <menu:item id="i_impressions_list" messageCode="global_menu_list" url="/impressionses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="xpySZZXDdtAv/Qi7qbUOGEgSETw="/>
+        </menu:category>
+        <menu:category id="c_transactions" z="OK4KB8rzAG7xD8L6tqZ11Sy9qyc=">
+            <menu:item id="i_transactions_new" messageCode="global_menu_new" url="/transactionses?form" z="kdyTlh2oAzOs/kX0RJi80KLK/cs="/>
+            <menu:item id="i_transactions_list" messageCode="global_menu_list" url="/transactionses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="puQ6UpLafTvz7BTT2jUPEulGEa4="/>
+        </menu:category>
+        <menu:category id="c_campaigns" z="0xPJuJXKoy2/jrBYhlsRBKdLyUQ=">
+            <menu:item id="i_campaigns_new" messageCode="global_menu_new" url="/campaignses?form" z="PLSMS02bzNrAFH7Lb5gpssArCRY="/>
+            <menu:item id="i_campaigns_list" messageCode="global_menu_list" url="/campaignses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="d2qR3OAuuzDD/wWaRzCJbFbyezc="/>
+        </menu:category>
+        <menu:category id="c_demographics" z="m+mnq7w00KlLQCnZY5iZdd1fA/U=">
+            <menu:item id="i_demographics_new" messageCode="global_menu_new" url="/demographicses?form" z="2Rhi9kMnOGauK/EkWWb+b6hBsto="/>
+            <menu:item id="i_demographics_list" messageCode="global_menu_list" url="/demographicses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="8sY8b4lcZvzWsYJg0+u6AT2EPx8="/>
+        </menu:category>
+        <menu:category id="c_customers" z="SU7RW0LTASLWQmgpYffMOnBiiU8=">
+            <menu:item id="i_customers_new" messageCode="global_menu_new" url="/customerses?form" z="DbPMNFtSddG4wWmPkwjpespk8kY="/>
+            <menu:item id="i_customers_list" messageCode="global_menu_list" url="/customerses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="rdlRDbc/tHDXsW9TVcfLSUHHJUg="/>
+        </menu:category>
+        <menu:category id="c_languages" z="Pn2ShB8ADvWTu/KbZlwbP+mFFPw=">
+            <menu:item id="i_languages_new" messageCode="global_menu_new" url="/languageses?form" z="809P/MzpmIUHvyJR/FQoCKePyVo="/>
+            <menu:item id="i_languages_list" messageCode="global_menu_list" url="/languageses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="gTYaTwKnImhH2UmsioF1yg9rISA="/>
+        </menu:category>
+        <menu:category id="c_referrals" z="/PzpmsIHf10MPTuem/IuIypV2uk=">
+            <menu:item id="i_referrals_new" messageCode="global_menu_new" url="/referralses?form" z="Efg/7tutfUJKYxtpIN8xH8A719g="/>
+            <menu:item id="i_referrals_list" messageCode="global_menu_list" url="/referralses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="3Q+mTFXWssKVLmT5LSt2tHh18qs="/>
+        </menu:category>
+        <menu:category id="c_areas" z="3karq5tKTdqjrFnFxJqlmH6kYHE=">
+            <menu:item id="i_areas_new" messageCode="global_menu_new" url="/areases?form" z="80PrzdKIZXOYPzj6rlwJi6ZXzsc="/>
+            <menu:item id="i_areas_list" messageCode="global_menu_list" url="/areases?page=1&amp;size=${empty param.size ? 10 : param.size}" z="QEApliBJWKpf6FJX6US/CGzY6B8="/>
+        </menu:category>
+        <menu:category id="c_thresholds" z="LhSeUWKarJAxP2yznDi1utqipzU=">
+            <menu:item id="i_thresholds_new" messageCode="global_menu_new" url="/thresholdses?form" z="mzz7IwIFSE1xlMCDJXaR2kZHCBE="/>
+            <menu:item id="i_thresholds_list" messageCode="global_menu_list" url="/thresholdses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="q406DWTnXc9pCHMFpWmYQTsLnlU="/>
+        </menu:category>
+        <menu:category id="c_apps" z="eeJQ2dWIxcqABu0+yLZzrSiKdOM=">
+            <menu:item id="i_apps_new" messageCode="global_menu_new" url="/appses?form" z="7Ve74D6GsA5ice6OZwf0MdHXWqE="/>
+            <menu:item id="i_apps_list" messageCode="global_menu_list" url="/appses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="8dj0UmZr8OPwguS4LF9CUSIqHIg="/>
+        </menu:category>
+        <menu:category id="c_endusers" z="1urBRvo6Z/HTvH/OPw2WjEUt1Ww=">
+            <menu:item id="i_endusers_new" messageCode="global_menu_new" url="/enduserses?form" z="eg+3J1b9/MHZvICY4OfRVOLwyb8="/>
+            <menu:item id="i_endusers_list" messageCode="global_menu_list" url="/enduserses?page=1&amp;size=${empty param.size ? 10 : param.size}" z="NeKQ2djuGUFiDcs2s/rZvnClP/s="/>
+        </menu:category>
+    </menu:menu>
+</div>

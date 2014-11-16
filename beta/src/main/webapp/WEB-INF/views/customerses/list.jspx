@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_frontend_customers_Customers" items="${customerses}" z="RzjwemK/9wSBNOPjPBR371pw1Wk=">
+        <table:table data="${customerses}" id="l_com_woomii_beta_frontend_customers_Customers" path="/customerses" z="6G403sZQZ8W7H5Xo/1EkpYbFJCU=">
+            <table:column id="c_com_woomii_beta_frontend_customers_Customers_cust_id" property="cust_id" z="MkqZzqfbbYP3QMNa5ESZE5gaKsw="/>
+            <table:column id="c_com_woomii_beta_frontend_customers_Customers_name" property="name" z="MxyxdNdKd9a+0fj4jQL3Ibx1U/c="/>
+            <table:column id="c_com_woomii_beta_frontend_customers_Customers_email" property="email" z="1rsMkatdHz5jiKu4hcVQaM7gNmA="/>
+            <table:column id="c_com_woomii_beta_frontend_customers_Customers_password" property="password" z="WtAUWMfj0mHD0fJZhoN3ehzyo78="/>
+            <table:column id="c_com_woomii_beta_frontend_customers_Customers_fb_id" property="fb_id" z="Zgo/lU2P0Xwx30AebJRcpp3CyVU="/>
+            <table:column id="c_com_woomii_beta_frontend_customers_Customers_google_id" property="google_id" z="ELfwjelmiyxlCcTdodaw+9AeUqY="/>
+        </table:table>
+    </page:list>
+</div>

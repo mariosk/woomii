@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_backend_thresholds_Thresholds" items="${thresholdses}" z="oLDSVsnmHLUtJXDtWZwgUtojdEQ=">
+        <table:table data="${thresholdses}" id="l_com_woomii_beta_backend_thresholds_Thresholds" path="/thresholdses" z="bKGfX4PcpSGYCbdmNZBVrldSIGM=">
+            <table:column id="c_com_woomii_beta_backend_thresholds_Thresholds_max_referrals" property="max_referrals" z="t39/eQEQ//OQkoMF4vEcr/hTeQ8="/>
+            <table:column id="c_com_woomii_beta_backend_thresholds_Thresholds_max_credits" property="max_credits" z="P87xE85HpeCqMR8E85mEgk3VtQA="/>
+        </table:table>
+    </page:list>
+</div>

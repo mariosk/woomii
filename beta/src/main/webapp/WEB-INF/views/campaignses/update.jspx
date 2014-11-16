@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_woomii_beta_frontend_campaigns_Campaigns" idField="Id" modelAttribute="campaigns" path="/campaignses" versionField="Version" z="qaJvi1L0FTjxsRvU7LYw7tQnPAk=">
+        <field:select field="app" id="c_com_woomii_beta_frontend_campaigns_Campaigns_app" itemValue="id" items="${appses}" path="/appses" z="bXCRelLuaewB9msaMRE8N5uzSYA="/>
+        <field:checkbox field="status" id="c_com_woomii_beta_frontend_campaigns_Campaigns_status" z="PsnIGO2QfhqJNlhqo3UWoi/nCCc="/>
+        <field:checkbox field="area_enabled" id="c_com_woomii_beta_frontend_campaigns_Campaigns_area_enabled" z="zimImcCXPThLzUiEB1gquRonauQ="/>
+        <field:datetime dateTimePattern="${campaigns_launch_date_date_format}" field="launch_date" id="c_com_woomii_beta_frontend_campaigns_Campaigns_launch_date" z="5OusJS9SFaOY2RvODdhJlyvQVDg="/>
+        <field:datetime dateTimePattern="${campaigns_expiration_date_date_format}" field="expiration_date" id="c_com_woomii_beta_frontend_campaigns_Campaigns_expiration_date" z="fb0yBHPPDK0f/eNsg1zcP2yhyeA="/>
+        <field:datetime dateTimePattern="${campaigns_credits_expiration_date_date_format}" field="credits_expiration_date" id="c_com_woomii_beta_frontend_campaigns_Campaigns_credits_expiration_date" z="4YlVQtmvpdCkKP48A1EJSXD6xLw="/>
+        <field:input field="when_to_change_demographics" id="c_com_woomii_beta_frontend_campaigns_Campaigns_when_to_change_demographics" z="GdYm+9iby0ShG2shzX/duiylSlM="/>
+        <field:textarea field="num_of_credits_threshold" id="c_com_woomii_beta_frontend_campaigns_Campaigns_num_of_credits_threshold" required="true" z="2jSGJfvpEKZpIPXA+IYShALvbSU="/>
+        <field:input field="num_of_credits" id="c_com_woomii_beta_frontend_campaigns_Campaigns_num_of_credits" z="/pdeDWNQgR4JqyLRDEyxwUffbcc="/>
+        <field:textarea field="num_of_referrals_threshold" id="c_com_woomii_beta_frontend_campaigns_Campaigns_num_of_referrals_threshold" required="true" z="vbycGbFo+Q1c1I8DUDnFlgXVrbo="/>
+        <field:input field="num_of_referrals" id="c_com_woomii_beta_frontend_campaigns_Campaigns_num_of_referrals" z="/JmYJxomyTVjEu5aqoQ1rMzfbJQ="/>
+        <field:textarea field="name" id="c_com_woomii_beta_frontend_campaigns_Campaigns_name" required="true" z="X23hNexX+YvUznwko7fcjo7a7l8="/>
+        <field:select field="currency" id="c_com_woomii_beta_frontend_campaigns_Campaigns_currency" items="${currencytypes}" path="currencytypes" z="0JY307VSzg1glvrvCakaIZ3J+44="/>
+        <field:input field="credits_earn_at_installation_usera" id="c_com_woomii_beta_frontend_campaigns_Campaigns_credits_earn_at_installation_usera" z="SOdfZuX8mTf9qPDV3Hm0gvju2UU="/>
+        <field:input field="credits_earn_at_installation_userb" id="c_com_woomii_beta_frontend_campaigns_Campaigns_credits_earn_at_installation_userb" z="niuZgoBfqHJMBrS77UwqAhlc/TE="/>
+        <field:input field="credits_earn_at_transaction" id="c_com_woomii_beta_frontend_campaigns_Campaigns_credits_earn_at_transaction" z="gHv+x2wGQzUAhNwIZ1rfBgUyJtQ="/>
+        <field:input field="rgbcolor" id="c_com_woomii_beta_frontend_campaigns_Campaigns_rgbcolor" max="6" z="w81kNtMwJWQXtXyGv/fVTXtVQ3A="/>
+    </form:update>
+</div>

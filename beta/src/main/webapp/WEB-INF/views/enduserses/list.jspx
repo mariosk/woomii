@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_backend_endusers_EndUsers" items="${enduserses}" z="O+lWtW3EbfHySpLUTC69qgotk8o=">
+        <table:table data="${enduserses}" id="l_com_woomii_beta_backend_endusers_EndUsers" path="/enduserses" z="fCl4S6f/+aFJHir3hivzF7eqpOs=">
+            <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_uuid" property="uuid" z="6yZ9zPaT20k84J1fCP7taOqkEZQ="/>
+            <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_app" property="app" z="oMEbZjmZ8EwKBKnMugqcUsDtDKk="/>
+            <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_pin" property="pin" z="EkwK+8cd4jYeI7wLc300wWPyuxM="/>
+            <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_app_installed" property="app_installed" z="y4O3Tm/peyUY5MNeHBKqMaqxiHI="/>
+        </table:table>
+    </page:list>
+</div>

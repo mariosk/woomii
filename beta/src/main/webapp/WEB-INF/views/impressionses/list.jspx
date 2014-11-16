@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_backend_impressions_Impressions" items="${impressionses}" z="4CrM6vzXQN7tFV3HvopwnKKy0d4=">
+        <table:table data="${impressionses}" id="l_com_woomii_beta_backend_impressions_Impressions" path="/impressionses" z="S0WYMWe5k4ZVjImTK4bVrzOk+gs=">
+            <table:column id="c_com_woomii_beta_backend_impressions_Impressions_campaign" property="campaign" z="sllnmpURQv1uIYgqrV0ijzirHeA="/>
+            <table:column id="c_com_woomii_beta_backend_impressions_Impressions_app" property="app" z="XzFuFmhcPhOvkbq6s8yJW2qCqT0="/>
+            <table:column id="c_com_woomii_beta_backend_impressions_Impressions_aff_id" property="aff_id" z="QDh+IJZ+yrmh+SgXjzswZos10iI="/>
+            <table:column id="c_com_woomii_beta_backend_impressions_Impressions_uuid_a" property="uuid_a" z="ZGVVDwNgG6l5BVoMui/Y+kznc7M="/>
+            <table:column id="c_com_woomii_beta_backend_impressions_Impressions_clicked" property="clicked" z="t5qtI/r69ytpPszyvLWZshrr6Zo="/>
+            <table:column date="true" dateTimePattern="${impressions_created_date_format}" id="c_com_woomii_beta_backend_impressions_Impressions_created" property="created" z="muz9C/VgzRcSL63SOh6VNfCM5aQ="/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_woomii_beta_backend_endusers_EndUsers" object="${endusers}" path="/enduserses" z="jn6uM3DniFtVbhRKzG1bJpfe5i0=">
+        <field:display field="uuid" id="s_com_woomii_beta_backend_endusers_EndUsers_uuid" object="${endusers}" z="bgHAZ771j2G7MGXEKEDRoTboebs="/>
+        <field:display field="app" id="s_com_woomii_beta_backend_endusers_EndUsers_app" object="${endusers}" z="CrqmQGZq5HSXomXT92GOquCpnlQ="/>
+        <field:display field="pin" id="s_com_woomii_beta_backend_endusers_EndUsers_pin" object="${endusers}" z="VbYM/LZhC57C32+WVX/PGwFfk/U="/>
+        <field:display field="app_installed" id="s_com_woomii_beta_backend_endusers_EndUsers_app_installed" object="${endusers}" z="tEryoETnM0Q1KBoobRIvvOkMKKc="/>
+    </page:show>
+</div>

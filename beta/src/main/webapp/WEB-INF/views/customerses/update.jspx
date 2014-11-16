@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_woomii_beta_frontend_customers_Customers" modelAttribute="customers" path="/customerses" versionField="Version" z="w+fFrnGUlMja8/m8jwZ4gdvIwJM=">
+        <field:textarea field="cust_id" id="c_com_woomii_beta_frontend_customers_Customers_cust_id" required="true" z="F5ZrRJPyWGwm+2Wl4lwprpnMs7U="/>
+        <field:textarea field="name" id="c_com_woomii_beta_frontend_customers_Customers_name" z="yDCrcVMXif7VXcmTmscyxFmE41U="/>
+        <field:textarea field="email" id="c_com_woomii_beta_frontend_customers_Customers_email" validationMessageCode="field_invalid_email" z="itowXovh+eIn9/kB+AdjBzLsuKM="/>
+        <field:textarea field="password" id="c_com_woomii_beta_frontend_customers_Customers_password" z="E8fBsSqnJK6LtuI3ZQzfmfLeMDg="/>
+        <field:input field="fb_id" id="c_com_woomii_beta_frontend_customers_Customers_fb_id" max="16" z="1SdXvehnSkmxAQJ+Iat2uBR48ws="/>
+        <field:input field="google_id" id="c_com_woomii_beta_frontend_customers_Customers_google_id" max="16" z="v51R6Po6uHWJX24Oyx+7Bs25Y0E="/>
+        <field:textarea field="logo" id="c_com_woomii_beta_frontend_customers_Customers_logo" z="N1wzvcqb0VboAlSyTvgLR+2+4F8="/>
+    </form:update>
+</div>

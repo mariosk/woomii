@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_woomii_beta_backend_transactions_Transactions" object="${transactions}" path="/transactionses" z="yNoJdk+z0FrM2ZKytGPmJJSEa5U=">
+        <field:display field="campaign" id="s_com_woomii_beta_backend_transactions_Transactions_campaign" object="${transactions}" z="LIr5dG1IWQz2QoZlZ75fPBqV+7Y="/>
+        <field:display field="app" id="s_com_woomii_beta_backend_transactions_Transactions_app" object="${transactions}" z="jde1/+3gXwEpEfgJ/eHiTy3jWHg="/>
+        <field:display field="uuid_a" id="s_com_woomii_beta_backend_transactions_Transactions_uuid_a" object="${transactions}" z="l6PX1/kFdufZf49y8GWU80hMVc4="/>
+        <field:display field="uuid_b" id="s_com_woomii_beta_backend_transactions_Transactions_uuid_b" object="${transactions}" z="WDy517CSHS1EOxqodPRhiNlTQH4="/>
+        <field:display field="type" id="s_com_woomii_beta_backend_transactions_Transactions_type" object="${transactions}" z="YwlPhrAdhmYP+M5uClrHyBuMWXQ="/>
+        <field:display field="credits_earned" id="s_com_woomii_beta_backend_transactions_Transactions_credits_earned" object="${transactions}" z="OLlefq0qk//5qyjTiEhVrd1LB2Y="/>
+        <field:display field="credits_redeemed" id="s_com_woomii_beta_backend_transactions_Transactions_credits_redeemed" object="${transactions}" z="5DBXBSfGcmy85/tIsOmfRWiCM9c="/>
+    </page:show>
+</div>

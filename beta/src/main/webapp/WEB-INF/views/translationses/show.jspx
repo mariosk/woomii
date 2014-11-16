@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_woomii_beta_frontend_translations_Translations" object="${translations}" path="/translationses" z="tdawTDcD00aSAXU+98EI37Xdet4=">
+        <field:display field="campaign" id="s_com_woomii_beta_frontend_translations_Translations_campaign" object="${translations}" z="MfQ4RP05BofYBpbxvMincXb4Y70="/>
+        <field:display field="lang" id="s_com_woomii_beta_frontend_translations_Translations_lang" object="${translations}" z="Ikf4frboWiQDpIAOHdmvrvAMMN8="/>
+        <field:display field="motto" id="s_com_woomii_beta_frontend_translations_Translations_motto" object="${translations}" z="bBTEgIxO0Mf7itNyvTXoiFVqzhs="/>
+        <field:display field="terms" id="s_com_woomii_beta_frontend_translations_Translations_terms" object="${translations}" z="o8MArvu5UJj/hj7y4U3J3pvRTlI="/>
+        <field:display field="referral_done_msg" id="s_com_woomii_beta_frontend_translations_Translations_referral_done_msg" object="${translations}" z="pi690S21CmwVnPcKI3MZdy1cq50="/>
+        <field:display field="referral_error_msg" id="s_com_woomii_beta_frontend_translations_Translations_referral_error_msg" object="${translations}" z="cTlX7FSMmSBY3knoFkYySnNZod4="/>
+        <field:display field="welcome_msg" id="s_com_woomii_beta_frontend_translations_Translations_welcome_msg" object="${translations}" z="VLZu0qc80BLcNjoFrgr/529EU88="/>
+        <field:display field="error_msg" id="s_com_woomii_beta_frontend_translations_Translations_error_msg" object="${translations}" z="dSsjDpKohqfrnu/aKuyL2uFab5M="/>
+        <field:display field="donation_msg" id="s_com_woomii_beta_frontend_translations_Translations_donation_msg" object="${translations}" z="+kEZBPWYjJKCnElLhzUE5b/Y+S0="/>
+        <field:display field="donation_error_msg" id="s_com_woomii_beta_frontend_translations_Translations_donation_error_msg" object="${translations}" z="iWwVa6dcxgfdWTPcvrgNg7lCGNA="/>
+        <field:display field="enter_pin_msg" id="s_com_woomii_beta_frontend_translations_Translations_enter_pin_msg" object="${translations}" z="ibNSpbCm3CnWeqR+qNaU/vIjVy0="/>
+        <field:display field="push_msg_after_installation" id="s_com_woomii_beta_frontend_translations_Translations_push_msg_after_installation" object="${translations}" z="99J29vtvLYdNoZXWw9SajxZyogw="/>
+    </page:show>
+</div>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_frontend_areas_Areas" items="${areases}" z="KiViHIDGLjRGl2aSzNuKUjWHwDg=">
+        <table:table data="${areases}" id="l_com_woomii_beta_frontend_areas_Areas" path="/areases" z="3M+WgDGxXmEej2cXDCne6scoGHU=">
+            <table:column id="c_com_woomii_beta_frontend_areas_Areas_campaign" property="campaign" z="OgIzNeM/7pKdNprRiZe1OAGUNUs="/>
+            <table:column id="c_com_woomii_beta_frontend_areas_Areas_lat1" property="lat1" z="KHgt41gy+4AT1oLgdHjEbQ3D7c8="/>
+            <table:column id="c_com_woomii_beta_frontend_areas_Areas_lng1" property="lng1" z="RqoQSUAkubmgChY+PHWz8cn/D/Y="/>
+            <table:column id="c_com_woomii_beta_frontend_areas_Areas_lat2" property="lat2" z="qsS34vogk9XUxKvCy08bBRFzqGU="/>
+            <table:column id="c_com_woomii_beta_frontend_areas_Areas_lng2" property="lng2" z="IdapE1zINwdrmD3bBIGnv/plInY="/>
+            <table:column id="c_com_woomii_beta_frontend_areas_Areas_lat3" property="lat3" z="hWxrvaImFxpycBhDhzJVQkcnQEU="/>
+        </table:table>
+    </page:list>
+</div>

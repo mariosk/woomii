@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_backend_referrals_Referrals" items="${referralses}" z="xXLEAlKvQAgDujA2/EJ+pxZw1S4=">
+        <table:table data="${referralses}" id="l_com_woomii_beta_backend_referrals_Referrals" path="/referralses" z="F3FBhBbwFim5X71jnsEZqKhbTPQ=">
+            <table:column id="c_com_woomii_beta_backend_referrals_Referrals_campaign" property="campaign" z="TbVZFyQyHYeJHajig1dFSzXU6K4="/>
+            <table:column id="c_com_woomii_beta_backend_referrals_Referrals_app" property="app" z="LJf7FHbpmXF2HUmogYeBsiVr3dA="/>
+            <table:column id="c_com_woomii_beta_backend_referrals_Referrals_aff_id" property="aff_id" z="TGc1nd+6sw9L9unJaKUfXMlSnq0="/>
+            <table:column id="c_com_woomii_beta_backend_referrals_Referrals_uuid_a" property="uuid_a" z="MJjGioctw+xowykjWT9pPhM78zc="/>
+            <table:column id="c_com_woomii_beta_backend_referrals_Referrals_uuid_b" property="uuid_b" z="66qE3pT2yVm/xn8NNoOZB+c5sws="/>
+            <table:column id="c_com_woomii_beta_backend_referrals_Referrals_ua_b" property="ua_b" z="TC8ibpZ8nxO+nqtfl2V41mmBzIs="/>
+        </table:table>
+    </page:list>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_woomii_beta_frontend_areas_Areas" object="${areas}" path="/areases" z="atUvsI88F/o/KbQRw7kaO28+HEw=">
+        <field:display field="campaign" id="s_com_woomii_beta_frontend_areas_Areas_campaign" object="${areas}" z="9/7VRtthW9/HSFDwZWguD7CdkSk="/>
+        <field:display field="lat1" id="s_com_woomii_beta_frontend_areas_Areas_lat1" object="${areas}" z="ya30g8xiZQbXgmAvszmpkc7EDRQ="/>
+        <field:display field="lng1" id="s_com_woomii_beta_frontend_areas_Areas_lng1" object="${areas}" z="BgzfnLCaDaizlTqPQKdm2Bu7cgI="/>
+        <field:display field="lat2" id="s_com_woomii_beta_frontend_areas_Areas_lat2" object="${areas}" z="8JyAt5ciMWwY5rhxhJDSBnJFYuE="/>
+        <field:display field="lng2" id="s_com_woomii_beta_frontend_areas_Areas_lng2" object="${areas}" z="WK51TskXJzd1PxCE+qfCVQfplp8="/>
+        <field:display field="lat3" id="s_com_woomii_beta_frontend_areas_Areas_lat3" object="${areas}" z="Ad+7a1jH6F5HAYRMXAJuqP/w0es="/>
+        <field:display field="lng3" id="s_com_woomii_beta_frontend_areas_Areas_lng3" object="${areas}" z="XGd5W1FtBKEt1Mjmlg1/xSLSjHA="/>
+        <field:display field="lat4" id="s_com_woomii_beta_frontend_areas_Areas_lat4" object="${areas}" z="5HUv8TqVKz7WD6Q2J1ja+M4FC2U="/>
+        <field:display field="lng4" id="s_com_woomii_beta_frontend_areas_Areas_lng4" object="${areas}" z="Udq7hnEF7kGfxqZi6b9aVQW49GI="/>
+    </page:show>
+</div>

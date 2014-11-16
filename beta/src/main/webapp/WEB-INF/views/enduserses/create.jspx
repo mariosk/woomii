@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_com_woomii_beta_backend_endusers_EndUsers" modelAttribute="endUsers" path="/enduserses" render="${empty dependencies}" z="3ZO913dY/8gqlXL3LvXQ93n0rQ8=">
+        <field:textarea field="uuid" id="c_com_woomii_beta_backend_endusers_EndUsers_uuid" required="true" z="H+dzqA9b1XhpCj1GADLS1zAWYkU="/>
+        <field:select field="app" id="c_com_woomii_beta_backend_endusers_EndUsers_app" itemValue="id" items="${appses}" path="/appses" z="AZ2Ux2Nj1XPr2QFxpkYztNF3K2U="/>
+        <field:textarea field="pin" id="c_com_woomii_beta_backend_endusers_EndUsers_pin" required="true" z="IQ5pyDz6IxNKyhtP4qGCCFMTVnc="/>
+        <field:checkbox field="app_installed" id="c_com_woomii_beta_backend_endusers_EndUsers_app_installed" z="7aPV6b6hHuiDWwoyN4vbn51D0Ls="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_com_woomii_beta_backend_endusers_EndUsers" render="${not empty dependencies}" z="grlKx74vJu8yYoz7Vu7Te+gQQyI="/>
+</div>

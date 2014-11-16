@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_woomii_beta_backend_thresholds_Thresholds" object="${thresholds}" path="/thresholdses" z="VnsYW0VXSDpUZH041x5XYBRzxmg=">
+        <field:display field="max_referrals" id="s_com_woomii_beta_backend_thresholds_Thresholds_max_referrals" object="${thresholds}" z="K4EPJhvXlprUSMSNDA5dSrqAKTo="/>
+        <field:display field="max_credits" id="s_com_woomii_beta_backend_thresholds_Thresholds_max_credits" object="${thresholds}" z="eK1+VmnKY492Ia785BYOQaCIzB8="/>
+    </page:show>
+</div>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_com_woomii_beta_frontend_translations_Translations" items="${translationses}" z="UPuMZ//EJ677WIvqyA3xUea7Sik=">
+        <table:table data="${translationses}" id="l_com_woomii_beta_frontend_translations_Translations" path="/translationses" z="4t14jAXVXHRAYO/wk1Y8crcVxCk=">
+            <table:column id="c_com_woomii_beta_frontend_translations_Translations_campaign" property="campaign" z="zr9ysqbgIRkrrhyqE4BwR/CBPmA="/>
+            <table:column id="c_com_woomii_beta_frontend_translations_Translations_lang" property="lang" z="Z97VF/tYyDS3nC2JUr4OYQ6WSuM="/>
+            <table:column id="c_com_woomii_beta_frontend_translations_Translations_motto" property="motto" z="er3Hh6gjuirTcksOMMAV6IYn1Qo="/>
+            <table:column id="c_com_woomii_beta_frontend_translations_Translations_terms" property="terms" z="ZA5r9qmG0KheEDCO3Usy3PDz5UQ="/>
+            <table:column id="c_com_woomii_beta_frontend_translations_Translations_referral_done_msg" property="referral_done_msg" z="5iIONiPGezorkBvaHXZBgNqhJEc="/>
+            <table:column id="c_com_woomii_beta_frontend_translations_Translations_referral_error_msg" property="referral_error_msg" z="vxYheyzdj+T85xfKA7IXsMNL8Es="/>
+        </table:table>
+    </page:list>
+</div>

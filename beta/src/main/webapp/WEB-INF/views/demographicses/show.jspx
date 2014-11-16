@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_woomii_beta_backend_demographics_Demographics" object="${demographics}" path="/demographicses" z="M4JCUr06OG96l2BarsVDGl17sVk=">
+        <field:display field="enduser" id="s_com_woomii_beta_backend_demographics_Demographics_enduser" object="${demographics}" z="woMz72A3y6uqAuSjYbG0sCDdx/w="/>
+        <field:display field="sex" id="s_com_woomii_beta_backend_demographics_Demographics_sex" object="${demographics}" z="l0xsht9XQyBcdlFADUN+2y+GoXM="/>
+        <field:display field="age" id="s_com_woomii_beta_backend_demographics_Demographics_age" object="${demographics}" z="ur0kB0Omq4vrQpmK1Pus3kzLAso="/>
+        <field:display field="name" id="s_com_woomii_beta_backend_demographics_Demographics_name" object="${demographics}" z="AT5ASLbrQcPq+G/P785yRhg0sT4="/>
+        <field:display field="fb_id" id="s_com_woomii_beta_backend_demographics_Demographics_fb_id" object="${demographics}" z="xE4uhUsT4WCHbiEvGrduopMKoqY="/>
+        <field:display field="mobile" id="s_com_woomii_beta_backend_demographics_Demographics_mobile" object="${demographics}" z="frDzEH/7QcZlRjwksChFkZHO00M="/>
+        <field:display field="email" id="s_com_woomii_beta_backend_demographics_Demographics_email" object="${demographics}" z="57g+tojDXmcIJTx7GQGEFYY+2oU="/>
+    </page:show>
+</div>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_com_woomii_beta_frontend_customers_Customers" object="${customers}" path="/customerses" z="/Kj66St2+gV2b+IBTx3WL3tFjfo=">
+        <field:display field="cust_id" id="s_com_woomii_beta_frontend_customers_Customers_cust_id" object="${customers}" z="3pvBdB8zTn50MNPp8EYBJYtgyH4="/>
+        <field:display field="name" id="s_com_woomii_beta_frontend_customers_Customers_name" object="${customers}" z="PgiYFdhOaYbDndbidaIxGmLM4kc="/>
+        <field:display field="email" id="s_com_woomii_beta_frontend_customers_Customers_email" object="${customers}" z="yb3owjZOLzpUzUEje41xaItEwoA="/>
+        <field:display field="password" id="s_com_woomii_beta_frontend_customers_Customers_password" object="${customers}" z="iFGmtXpXFs3YRPNigybmkbx4DrU="/>
+        <field:display field="fb_id" id="s_com_woomii_beta_frontend_customers_Customers_fb_id" object="${customers}" z="UaTswgD07X3vf/yCZVKfpiGvkEo="/>
+        <field:display field="google_id" id="s_com_woomii_beta_frontend_customers_Customers_google_id" object="${customers}" z="0LxfKFUsab1xzCqNC58oPWMuf7E="/>
+        <field:display field="logo" id="s_com_woomii_beta_frontend_customers_Customers_logo" object="${customers}" z="oQV5m6s6gSNvDjU/c3n2fKBiWA8="/>
+    </page:show>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_woomii_beta_frontend_areas_Areas" modelAttribute="areas" path="/areases" versionField="Version" z="T/eDRBcmXdByjOdlysnasLN5Lco=">
+        <field:select field="campaign" id="c_com_woomii_beta_frontend_areas_Areas_campaign" itemValue="Id" items="${campaignses}" path="/campaignses" z="/IPdeN4dDQa3EtaiQXLi6OF82HA="/>
+        <field:input field="lat1" id="c_com_woomii_beta_frontend_areas_Areas_lat1" validationMessageCode="field_invalid_number" z="wWU5qC0F8sb5FbpE2xukGgSLBhA="/>
+        <field:input field="lng1" id="c_com_woomii_beta_frontend_areas_Areas_lng1" validationMessageCode="field_invalid_number" z="sPl3Z0EpdMAqtI8lnw4ewE3NUfs="/>
+        <field:input field="lat2" id="c_com_woomii_beta_frontend_areas_Areas_lat2" validationMessageCode="field_invalid_number" z="VYIAuDyyju4xMVVWfFNwY6A7ako="/>
+        <field:input field="lng2" id="c_com_woomii_beta_frontend_areas_Areas_lng2" validationMessageCode="field_invalid_number" z="dKIxQEinQA954dUhbLywq2YmhQg="/>
+        <field:input field="lat3" id="c_com_woomii_beta_frontend_areas_Areas_lat3" validationMessageCode="field_invalid_number" z="8IXNZkdx5OvHrOAYFe4PdeE1InI="/>
+        <field:input field="lng3" id="c_com_woomii_beta_frontend_areas_Areas_lng3" validationMessageCode="field_invalid_number" z="8X+ptbJI2fxy1t9K2DvnjDxlDsM="/>
+        <field:input field="lat4" id="c_com_woomii_beta_frontend_areas_Areas_lat4" validationMessageCode="field_invalid_number" z="yGSLpM4j8yqJTMs2ZXtPBfxg2oM="/>
+        <field:input field="lng4" id="c_com_woomii_beta_frontend_areas_Areas_lng4" validationMessageCode="field_invalid_number" z="TRgxNKJ9Hht4tkkflWBj2YIBz/c="/>
+    </form:update>
+</div>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_com_woomii_beta_frontend_translations_Translations" modelAttribute="translations" path="/translationses" versionField="Version" z="yzM+PhL6rc5qYajyNCnCdFkuprE=">
+        <field:select field="campaign" id="c_com_woomii_beta_frontend_translations_Translations_campaign" itemValue="Id" items="${campaignses}" path="/campaignses" z="XDw7gnZCwgJ7rpfMyz8tFURjZY0="/>
+        <field:select field="lang" id="c_com_woomii_beta_frontend_translations_Translations_lang" itemValue="id" items="${languageses}" path="/languageses" z="SyaEMTKyXIvzfeKcIPJv+I/WDmU="/>
+        <field:textarea field="motto" id="c_com_woomii_beta_frontend_translations_Translations_motto" z="o5XfCqAmEi3uIjcv2l+8mD7UD5I="/>
+        <field:textarea field="terms" id="c_com_woomii_beta_frontend_translations_Translations_terms" z="o2nP+zVc6U4CJUSQW/Sw7DsgcjA="/>
+        <field:textarea field="referral_done_msg" id="c_com_woomii_beta_frontend_translations_Translations_referral_done_msg" z="wxsImuTHzu2+AUX9bywY7r5kdEM="/>
+        <field:textarea field="referral_error_msg" id="c_com_woomii_beta_frontend_translations_Translations_referral_error_msg" z="864SvV2r9q2/TM/Rb+SIjvTVcM0="/>
+        <field:textarea field="welcome_msg" id="c_com_woomii_beta_frontend_translations_Translations_welcome_msg" z="AEP5jagNkjiTdpEWQtKZfFR8UcE="/>
+        <field:textarea field="error_msg" id="c_com_woomii_beta_frontend_translations_Translations_error_msg" z="sLKpPGGv10RjAS0aigpmFapwVOY="/>
+        <field:textarea field="donation_msg" id="c_com_woomii_beta_frontend_translations_Translations_donation_msg" z="K1guvPso2medeM3ipz0XTfQNNNk="/>
+        <field:textarea field="donation_error_msg" id="c_com_woomii_beta_frontend_translations_Translations_donation_error_msg" z="DRkpucOA00NWn9DsUubuveSN3UE="/>
+        <field:textarea field="enter_pin_msg" id="c_com_woomii_beta_frontend_translations_Translations_enter_pin_msg" z="6wOzBMrpTisAdRIpg7SSJVEvg0k="/>
+        <field:textarea field="push_msg_after_installation" id="c_com_woomii_beta_frontend_translations_Translations_push_msg_after_installation" z="SIakUUzVpQzDSS3CX9/Dbg9pBew="/>
+    </form:update>
+</div>

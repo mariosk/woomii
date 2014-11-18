@@ -59,16 +59,11 @@ public class IsAppInstalledController {
 	        	/*
 	        	 * 1. If [USERS.APP_INSTALLED == TRUE] then return INSTALLED = TRUE and exit.
 	        	 */
-	        	if (user.getApp_installed() == false) {                   			        
+	        	if (user.getApp_installed() == null || user.getApp_installed() == false) {                   			        
 	        		/*
 	        		 * 2. Else If there are no records in REFERRALS table where [(UUID != REFERRAL.UID_A) && (UUID != REFERRAL.UID_B)] then return INSTALLED = TRUE and exit. 
 	        		 */
-	        		if (DatabaseHelpers.findReferralsByUID_AOrUID_B(params.getUuId(), params.getAppId()) != null) {
-	        			user.setApp_installed(true);        			
-	        		}
-	        		else {
-	        			user.setApp_installed(false);
-	        		}
+	        		user.setApp_installed(DatabaseHelpers.findReferralsByUID_AOrUID_B(params.getUuId(), params.getAppId()));	        		
 	        	}
 	        }	        	        	        			        	
 	        return new ResponseEntity<String>(WooMiiUtils.replaceBooleanWithBit(WooMiiUtils.toJsonString(user, fields), user.getApp_installed()), headers, HttpStatus.OK);

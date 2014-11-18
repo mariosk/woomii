@@ -13,10 +13,14 @@ package com.woomii.beta.de.helpers;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.woomii.beta.backend.endusers.EndUsers;
 import com.woomii.beta.backend.impressions.Impressions;
 import com.woomii.beta.backend.referrals.Referrals;
 import com.woomii.beta.backend.transactions.Transactions;
+import com.woomii.beta.de.controllers.IsAppInstalledController;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
 import com.woomii.beta.frontend.apps.Apps;
@@ -32,6 +36,8 @@ return entityManager().createQuery(hibernateQuery, DataStreams.class).setParamet
 
 public class DatabaseHelpers {
 	
+	private static final Logger logger = LoggerFactory.getLogger(DatabaseHelpers.class);
+
 	public static List<Transactions> findTransactionsByUUIDAndAPPId(String uuId, String appId) throws Exception {
 		Apps app = DatabaseHelpers.findAppByAppId(appId);
         if (app == null) {        	        	
@@ -48,7 +54,7 @@ public class DatabaseHelpers {
     	Apps app = DatabaseHelpers.findAppByAppId(appId);
         if (app == null) {        	        	
         	throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_APPID_NOT_FOUND);
-        }
+        }        
         EndUsers user = DatabaseHelpers.findUserByUuidAndAppId(uuId, app.getId());        
         if (user == null) {
         	throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_UUID_NOT_FOUND);
@@ -145,13 +151,23 @@ public class DatabaseHelpers {
 		return null;
 	}
 	
-	public static List<Referrals> findReferralsByUID_AOrUID_B(String uuId, String appId) throws Exception {
+	public static boolean findReferralsByUID_AOrUID_B(String uuId, String appId) throws Exception {
 		Apps app = findAppByAppId(appId);
 		if (app != null) {
-			List<Referrals> listReferrals = Referrals.entityManager().createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + app.getId() + "' AND (UUID_A = '" + uuId + "' OR UUID_B = '" + uuId + "')", Referrals.class).getResultList();
-			return listReferrals;			
+			List<Referrals> listReferrals;
+			try {
+				listReferrals = Referrals.entityManager().createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + app.getId() + "' AND (UUID_A = '" + uuId + "' OR UUID_B = '" + uuId + "')", Referrals.class).getResultList();
+			}
+			catch (Exception ex) {
+				logger.error(ex.getMessage());
+				listReferrals = null;
+			}
+			if (listReferrals == null || listReferrals.size() == 0)
+				return false;
+			else
+				return true;
 		}
-		return null;
+		return false;
 	}
 
 	public static Referrals findReferralByUUIDAndAppIdAndCmpId(String uuId, Long app_id, Long cmpId) throws Exception {

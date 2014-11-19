@@ -27,6 +27,7 @@ import com.woomii.beta.de.params.RespErrorParams;
 import com.woomii.beta.de.params.requests.ReqPayNowParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
+import com.woomii.beta.frontend.apps.Apps;
 import com.woomii.beta.types.TransactionType;
 
 /**
@@ -49,13 +50,14 @@ public class PayNowController {
         	if (response != null)
         		return response;
 
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	/*
         	 * 1. Insert a new record in TRANSACTIONS table with 
         	 * APP_ID, UID_A=UUID, CAMPAIGN_ID=NULL, TYPE=REDEEM, CREDITS_EARNED=0, CREDITS_REDEEMED=CREDITS_NEEDED. 
         	 * This API call will have 3 delegates (onPaySuccess, onPayFailure, onPayCancel) and the developer is 
         	 * responsible to implement actions/show messages inside each delegate.
         	 */
-    		DatabaseHelpers.insertTransaction(params.getUuId(), null, null, params.getAppId(), 0, params.getCreditsNeeded(), TransactionType.REDEMPTION);
+    		DatabaseHelpers.insertTransaction(params.getUuId(), null, null, app, 0, params.getCreditsNeeded(), TransactionType.REDEMPTION);
     		logger.debug("PAYMENT OF " + params.getCreditsNeeded() + " COMPLETED FOR UUID = " + params.getUuId() + " APPID = " + params.getAppId());
     		
 			RespCommonParams respParams = new RespCommonParams();

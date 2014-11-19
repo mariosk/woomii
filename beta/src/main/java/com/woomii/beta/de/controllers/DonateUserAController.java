@@ -27,6 +27,7 @@ import com.woomii.beta.de.params.requests.ReqDonateUserAParams;
 import com.woomii.beta.de.params.responses.RespDonateUserAParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
+import com.woomii.beta.frontend.apps.Apps;
 import com.woomii.beta.frontend.campaigns.Campaigns;
 import com.woomii.beta.frontend.translations.Translations;
 import com.woomii.beta.types.TransactionType;
@@ -51,12 +52,13 @@ public class DonateUserAController {
         	if (response != null)
         		return response;
 
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	/*
         	 	1. Find out who is User-A that User-B (UUID) should donate. This can be done from table REFERRALS. 
             	A search on the table for UID_B==UUID and UID_A!=UUID. This record contains UID_A that is to be donated.
             	One record should be found here. If more than one is found it seems we have been attacked.
         	 */
-    		String uidA = DatabaseHelpers.findUserAByUserB(params.getUuId(), params.getCmpId(), params.getAppId());
+    		String uidA = DatabaseHelpers.findUserAByUserB(params.getUuId(), params.getCmpId(), app.getId());
     		if (uidA == null) {
     			errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_USER_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);    			
@@ -64,7 +66,7 @@ public class DonateUserAController {
     		/*
     		 * 2. Search in CAMPAIGNS table for the value of the CREDITS_EARN_AT_TRANSACTION.
     		 */    		
-    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(params.getAppId());
+    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);        	
@@ -74,9 +76,7 @@ public class DonateUserAController {
 			/*
 			 * 3. Insert a new record in TRANSACTIONS table: (CAMPAIGN_ID, APP_ID, UID_A, UUID=UID_B, DONATION, CREDITS_EARNED=CREDITS_EARN_AT_TRANSACTION)
 			 */
-			DatabaseHelpers.insertTransaction(uidA, params.getUuId(), cmp, params.getAppId(), cmp.getCredits_earn_at_transaction(), TransactionType.DONATION);
-			//TODO: ii. SUCH RECORDS SHOULD BE INSERTED ONLY ONCE!!! 
-			//This means that prior inserting such a record a check for INSTALLATION && UID_B==UUID && UID_A==UID_A should be done!
+			DatabaseHelpers.insertTransaction(uidA, params.getUuId(), cmp, app, cmp.getCredits_earn_at_transaction(), 0, TransactionType.DONATION);
 						
 			/*
 			 * 4. Constructs a DONATION_MSG according to the language that informs User-B about how many credits User-A just earned.

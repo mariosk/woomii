@@ -27,6 +27,7 @@ import com.woomii.beta.de.params.requests.ReqImpressionParams;
 import com.woomii.beta.de.params.responses.RespImpressionParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
+import com.woomii.beta.frontend.apps.Apps;
 import com.woomii.beta.frontend.campaigns.Campaigns;
 
 /**
@@ -48,17 +49,18 @@ public class ImpressionController {
         	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
-    		        	                 			
+    		        	                 	
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	/*
         	 * 1. This API call inserts a record in IMPRESSIONS table generating also the timestamp that this impression took place. 
         	 */
-    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(params.getAppId());
+    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 			}
 			logger.debug(cmp.toString());
-	        DatabaseHelpers.insertImpression(params.getUuId(), params.getAppId(), params.getAffId(), cmp, params.getClicked());
+	        DatabaseHelpers.insertImpression(params.getUuId(), app, params.getAffId(), cmp, params.getClicked());
 
 	        /*
 	         * 2. If (CLICKED==TRUE) then server should construct the URL that will be send to User-B from User-A. 

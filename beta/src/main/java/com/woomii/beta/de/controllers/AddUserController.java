@@ -38,6 +38,7 @@ import com.woomii.beta.de.params.RespErrorParams;
 import com.woomii.beta.de.params.responses.RespAddUserParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
+import com.woomii.beta.frontend.apps.Apps;
 import com.woomii.beta.frontend.campaigns.Campaigns;
 import com.woomii.beta.frontend.translations.Translations;
 
@@ -60,12 +61,13 @@ public class AddUserController {
         	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
-    		        	                 			
+    		        	   
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	/*
         	 * 1. This API call inserts the user in the USERS table and makes APP_INSTALLED = TRUE. 
         	 * If the user exists already no new change exist in the database.
         	 */
-	        DatabaseHelpers.insertUser(params.getUuId(), params.getAppId());
+	        DatabaseHelpers.insertUser(params.getUuId(), app);
 	        
 	        /*
 	         * 2. A search in the CAMPAIGNS table should be done in order to find out whether 
@@ -74,7 +76,7 @@ public class AddUserController {
 	         * 
 	         */
 	        RespAddUserParams respParams = new RespAddUserParams();
-	        Campaigns cmp = DatabaseHelpers.findCampaignByAppId(params.getAppId());
+	        Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
 			if (cmp == null) {
 				respParams.setShowPINPopup(false);	
 	        }

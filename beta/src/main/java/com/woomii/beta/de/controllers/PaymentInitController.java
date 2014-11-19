@@ -27,6 +27,7 @@ import com.woomii.beta.de.params.requests.ReqPaymentInitParams;
 import com.woomii.beta.de.params.responses.RespPaymentInitParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
+import com.woomii.beta.frontend.apps.Apps;
 
 /**
  * Handles requests for the AddUser REST API call.
@@ -47,11 +48,12 @@ public class PaymentInitController {
         	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
-    		        	                 			
+    		        	    
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	/*
 			 * 1. Find the rate of the Currency and Credits, from the APPS table by using the APP_ID.
         	 */
-    		float rate = DatabaseHelpers.findRateByAppId(params.getAppId());
+    		float rate = DatabaseHelpers.findRateByAppId(app);
     		if (rate <= 0) {
     			errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_RATE_NOT_VALID.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
@@ -59,7 +61,7 @@ public class PaymentInitController {
     		/*
     		 * 2. Search in TRANSACTIONS table with APP_ID and UID_A==UUID.
     		 */
-    		Long[] credits = DatabaseHelpers.findTotalCreditsEarned(params.getAppId(), params.getUuId());
+    		Long[] credits = DatabaseHelpers.findTotalCreditsEarned(params.getUuId(), app.getId());
     		    	
     		/*
     		 * 3. CREDITS_NEEDED = APP_COST/RATE

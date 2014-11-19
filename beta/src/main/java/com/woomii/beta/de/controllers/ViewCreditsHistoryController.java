@@ -35,6 +35,7 @@ import com.woomii.beta.de.params.responses.RespViewCreditsHistoryParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
 import com.woomii.beta.de.utils.TransactionsHistory;
+import com.woomii.beta.frontend.apps.Apps;
 import com.woomii.beta.frontend.campaigns.Campaigns;
 
 /**
@@ -57,6 +58,7 @@ public class ViewCreditsHistoryController {
         	if (response != null)
         		return response;
 
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	/*
         	 * 1. Search in TRANSACTIONS table and find the 
         	 * LAST 10 Transactions(APP_ID, UID_A=UUID). The fields that would be returned are:
@@ -64,7 +66,7 @@ public class ViewCreditsHistoryController {
         	 * TOTAL_CREDITS	: Total credits left so far (EARNED-REDEEMED)
         	 */
         	
-    		Collection<Transactions> transactions = DatabaseHelpers.findTransactionsByUUIDAndAPPId(params.getUuId(), params.getAppId());
+    		Collection<Transactions> transactions = DatabaseHelpers.findTransactionsByUUIDAndAPPId(params.getUuId(), app.getId());
     		if (transactions != null) {
     			RespViewCreditsHistoryParams respParams = new RespViewCreditsHistoryParams();
     			// traverse all transactions to fill properly the TransactionsHistory list with values for the JSON string.
@@ -106,7 +108,7 @@ public class ViewCreditsHistoryController {
 				respParams.setTransactions(itemsForJson);
 				
 				// find the totalCreditsLeft to set this value as well.
-				Long[] credits = DatabaseHelpers.findTotalCreditsEarned(params.getAppId(), params.getUuId());
+				Long[] credits = DatabaseHelpers.findTotalCreditsEarned(params.getUuId(), app.getId());
 				Long creditsEarned = credits[0];
 				Long creditsRedeemed = credits[1];
 				if (creditsEarned < creditsRedeemed) {

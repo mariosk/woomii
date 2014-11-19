@@ -28,6 +28,7 @@ import com.woomii.beta.de.params.RespErrorParams;
 import com.woomii.beta.de.params.requests.ReqUserBAssociatedParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
+import com.woomii.beta.frontend.apps.Apps;
 import com.woomii.beta.frontend.campaigns.Campaigns;
 import com.woomii.beta.types.TransactionType;
 
@@ -45,12 +46,13 @@ public class UserBAssociatedController {
 		HttpHeaders headers = new HttpHeaders();
         RespErrorParams errorResponse = new RespErrorParams();
                 
-        try {
+        try {        	
             ReqUserBAssociatedParams params = (ReqUserBAssociatedParams) WooMiiUtils.fromJson(jsonRequestBody, ReqUserBAssociatedParams.class);
         	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
-        	if (response != null)
+        	if (response != null)        	
         		return response;
-    		        	                 			
+    		        	         
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	/*
         	 * 1. Retrieves UID_A from PIN.
         	 */
@@ -72,16 +74,14 @@ public class UserBAssociatedController {
 			 * ii. SUCH RECORDS SHOULD BE INSERTED ONLY ONCE!!! This means that prior inserting such a record a check for INSTALLATION && UID_B==UUID && UID_A==UID_A should be done!
 			 * iii. sends a PUSH NOTIFICATION to UID_A $PUSH_MSG_AFTER_INSTALLATION (e.g.“You just earned $CREDITS_EARN_AT_INSTALLATION_USER_A credits from a friend who installed the APP”).
         	 */
-    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(params.getAppId());
+    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 			}
 			
 			if (cmp.getCredits_earn_at_installation_usera() > 0) {
-				DatabaseHelpers.insertTransaction(uidA, params.getUuId(), cmp, params.getAppId(), cmp.getCredits_earn_at_installation_usera(), TransactionType.INSTALLATION);
-				//TODO: ii. SUCH RECORDS SHOULD BE INSERTED ONLY ONCE!!! 
-				//This means that prior inserting such a record a check for INSTALLATION && UID_B==UUID && UID_A==UID_A should be done!
+				DatabaseHelpers.insertTransaction(uidA, params.getUuId(), cmp, app, cmp.getCredits_earn_at_installation_usera(), 0, TransactionType.INSTALLATION);
 			}				        	        
 			
 			RespCommonParams respParams = new RespCommonParams();

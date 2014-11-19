@@ -32,6 +32,7 @@ import java.util.List;
 
 import com.woomii.beta.backend.endusers.EndUsers;
 import com.woomii.beta.backend.referrals.Referrals;
+import com.woomii.beta.frontend.apps.Apps;
 import com.woomii.beta.frontend.campaigns.Campaigns;
 import com.woomii.beta.frontend.translations.Translations;
 import com.woomii.beta.types.TransactionType;
@@ -45,7 +46,7 @@ public class InitializeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(InitializeController.class);
 	
-	private static RespInitializeParams getInitializeResponse(ReqInitializeParams params, String userAgentB, RespErrorParams errorResponse) throws Exception {				
+	private static RespInitializeParams getInitializeResponse(ReqInitializeParams params, String userAgentB, RespErrorParams errorResponse, Apps app) throws Exception {				
 		/*
 		2. If [PIN == NULL] the server retrieves {CAMPAIGN_NAME, CAMPAIGN_ID, MOTTO, TERMS, COLOR} from CAMPAIGNS table using the APP_ID. 
 		Also, the server should check against the location of the user, whether this campaign is enabled for this position or not!
@@ -53,7 +54,7 @@ public class InitializeController {
 		*/
 		RespInitializeParams respParams = new RespInitializeParams();
 		if (params.getPin() == null) {
-			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(params.getAppId());
+			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
 			if (cmp == null) {
 	        	errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 	        	return null;
@@ -87,7 +88,7 @@ public class InitializeController {
 			 * b. Looks for an active CAMPAIGN in CAMPAIGNS table by using the APP_ID. 
 			 * The CAMPAIGN_ID returned is used below to retrieve the record from REFERRALS.
 			 */
-			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(params.getAppId());
+			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 	        	return null;
@@ -96,15 +97,15 @@ public class InitializeController {
 			/*
 			 * c. Searches in the REFERRALS table for UID_A and UID_B (=EMPTY).
 			 */
-			List<Referrals> referrals = DatabaseHelpers.findReferralsByUID_A(uidA, cmpId, params.getAppId());
-			if (referrals != null) {
+			List<Referrals> referrals = DatabaseHelpers.findReferralsByUID_A(uidA, cmpId, app.getId());
+			if (referrals != null && referrals.size() > 0) {
 				/*
 				 * d. If it finds such a record, 
 				 * it uses the {UID_A, CAMPAIGN_ID} to create a new record 
 				 * in REFERRALS: Referral(UID_A, APP_ID, CAMPAIGN_ID, UID_B, UA_B). 
 				 * This is actually the association between User-A and User-B.
 				 */			
-				DatabaseHelpers.makeAssociationOfUserAAndUserB(uidA, params.getUuId(), cmp, userAgentB, params.getAppId());
+				DatabaseHelpers.makeAssociationOfUserAAndUserB(uidA, params.getUuId(), cmp, userAgentB, app);
 			}
 			/*
 			 * e. IFF (CREDITS_EARN_AT_INSTALLATION_USER_B > 0) server:
@@ -122,9 +123,7 @@ public class InitializeController {
 			 */
 			
 			if (cmp.getCredits_earn_at_installation_userb() > 0) {
-				DatabaseHelpers.insertTransaction(params.getUuId(), params.getUuId(), cmp, params.getAppId(), cmp.getCredits_earn_at_installation_userb(), TransactionType.INSTALLATION);
-				//TODO: (ii) above => to prevent attacks
-				//TODO: Make sure app is not retrieved many times for the same appId!
+				DatabaseHelpers.insertTransaction(params.getUuId(), params.getUuId(), cmp, app, cmp.getCredits_earn_at_installation_userb(), 0, TransactionType.INSTALLATION);
 				Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang());
 		        if (translation != null) {
 		        	respParams.setMotto(translation.getMotto());
@@ -149,8 +148,10 @@ public class InitializeController {
         	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
-        	        	         
-	        RespInitializeParams resParams = getInitializeResponse(params, userAgent, errorResponse);
+        	        	        
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	
+	        RespInitializeParams resParams = getInitializeResponse(params, userAgent, errorResponse, app);
 	        if (resParams == null) {        	        	
 	        	return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 	        }

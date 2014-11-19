@@ -26,6 +26,7 @@ import com.woomii.beta.de.params.ReqCommonParams;
 import com.woomii.beta.de.params.RespErrorParams;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
+import com.woomii.beta.frontend.apps.Apps;
 
 /**
  * Handles requests for the IsAppInstalled REST API call.
@@ -47,10 +48,11 @@ public class IsAppInstalledController {
         	if (response != null)
         		return response;
         	
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
         	String fields[] = new String[1];
         	fields[0] = "app_installed";        	
         	                 			
-	        EndUsers user = DatabaseHelpers.findEndUserByUUIDAndAPPId(params.getUuId(), params.getAppId());
+	        EndUsers user = DatabaseHelpers.findEndUserByUUIDAndAPPId(params.getUuId(), app.getId());
 	        if (user == null) {        	        	
 	        	return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 	        }
@@ -63,7 +65,7 @@ public class IsAppInstalledController {
 	        		/*
 	        		 * 2. Else If there are no records in REFERRALS table where [(UUID != REFERRAL.UID_A) && (UUID != REFERRAL.UID_B)] then return INSTALLED = TRUE and exit. 
 	        		 */
-	        		user.setApp_installed(DatabaseHelpers.findReferralsByUID_AOrUID_B(params.getUuId(), params.getAppId()));	        		
+	        		user.setApp_installed(DatabaseHelpers.findReferralsByUID_AOrUID_B(params.getUuId(), app.getId()));	        		
 	        	}
 	        }	        	        	        			        	
 	        return new ResponseEntity<String>(WooMiiUtils.replaceBooleanWithBit(WooMiiUtils.toJsonString(user, fields), user.getApp_installed()), headers, HttpStatus.OK);

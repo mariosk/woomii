@@ -11,7 +11,7 @@
         <field:input field="sdk_version" id="c_com_woomii_beta_frontend_apps_Apps_sdk_version" max="16" z="S/FHuDsqAVXpQOusftaKHi869ac="/>
         <field:input field="rate" id="c_com_woomii_beta_frontend_apps_Apps_rate" z="6XhmF+nQRnYqtkogczvq60Snf4U="/>
         <field:textarea field="description" id="c_com_woomii_beta_frontend_apps_Apps_description" z="fzlF3lYXME3vyTPI0OcZHUhbvg8="/>
-        <field:textarea field="logo" id="c_com_woomii_beta_frontend_apps_Apps_logo" z="hmXEer9wdcrJpoPGH67vkJcc4fM="/>
+        <field:input field="logo" id="c_com_woomii_beta_frontend_apps_Apps_logo" z="QEXnFaDLaVotq9DWkO3OObIAFE0="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_woomii_beta_frontend_apps_Apps" render="${not empty dependencies}" z="5BzPp+yBtvGGv4YwQ+qGxJH0u7w="/>
 </div>

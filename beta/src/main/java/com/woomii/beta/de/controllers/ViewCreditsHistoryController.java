@@ -32,6 +32,7 @@ import com.woomii.beta.de.helpers.DatabaseHelpers;
 import com.woomii.beta.de.params.ReqCommonParams;
 import com.woomii.beta.de.params.RespErrorParams;
 import com.woomii.beta.de.params.responses.RespViewCreditsHistoryParams;
+import com.woomii.beta.de.utils.CreditsValues;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
 import com.woomii.beta.de.utils.TransactionsHistory;
@@ -108,14 +109,12 @@ public class ViewCreditsHistoryController {
 				respParams.setTransactions(itemsForJson);
 				
 				// find the totalCreditsLeft to set this value as well.
-				Long[] credits = DatabaseHelpers.findTotalCreditsEarned(params.getUuId(), app.getId());
-				Long creditsEarned = credits[0];
-				Long creditsRedeemed = credits[1];
-				if (creditsEarned < creditsRedeemed) {
+				CreditsValues credits = DatabaseHelpers.findTotalCreditsEarned(params.getUuId(), app.getId());				
+				if (credits.getCreditsLeft() < 0) {
 					errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CREDITS_EARNED_LESS_THAN_REDEEMED.ordinal());
 			        return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 				}
-				respParams.setTotalCreditsLeft(creditsEarned - creditsRedeemed);
+				respParams.setTotalCreditsLeft(credits.getCreditsLeft());
 				String[] fields = new String[1];
 				fields[0] = "TransactionsHistory";
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(respParams, true), headers, HttpStatus.OK);				

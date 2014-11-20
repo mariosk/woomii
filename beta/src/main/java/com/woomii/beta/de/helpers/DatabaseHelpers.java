@@ -20,7 +20,7 @@ import com.woomii.beta.backend.endusers.EndUsers;
 import com.woomii.beta.backend.impressions.Impressions;
 import com.woomii.beta.backend.referrals.Referrals;
 import com.woomii.beta.backend.transactions.Transactions;
-import com.woomii.beta.de.controllers.IsAppInstalledController;
+import com.woomii.beta.de.utils.CreditsValues;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
 import com.woomii.beta.frontend.apps.Apps;
@@ -116,17 +116,28 @@ public class DatabaseHelpers {
 		}		
 	}
 	
-	public static Long[] findTotalCreditsEarned(String uuId, Long appId) throws Exception {
-		try {
-			Long[] credits = new Long[2];			
+	public static CreditsValues findTotalCreditsEarned(String uuId, Long appId) throws Exception {
+		try {			
+			CreditsValues credits = new CreditsValues();						
+    		/*
+    		 * 4. CREDITS_EARNED = TOTAL_CREDITS_EARNED
+    		 */
 			Long totalCreditsEarned = Transactions.entityManager().createQuery("SELECT SUM(o.credits_earned) FROM Transactions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Long.class).getSingleResult();
 			if (totalCreditsEarned == null)
-				throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_NOT_FOUND);
-			credits[0] = totalCreditsEarned;
+				throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_NOT_FOUND);			    	
+    		logger.debug("creditsEarned = " + totalCreditsEarned);
+    		credits.setCreditsEarned(totalCreditsEarned.longValue());
+
+    		/* 
+    		 * 5. CREDITS_REDEEMED = TOTAL_CREDITS_REDEEMED
+    		 */    		
 			Long totalCreditsRedeemed = Transactions.entityManager().createQuery("SELECT SUM(o.credits_redeemed) FROM Transactions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Long.class).getSingleResult();
 			if (totalCreditsRedeemed == null)
-				throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_NOT_FOUND);
-			credits[1] = totalCreditsRedeemed;
+				throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_NOT_FOUND);			
+    		logger.debug("creditsRedeemed = " + totalCreditsRedeemed);
+    		credits.setCreditsRedeemed(totalCreditsRedeemed.longValue());
+    		
+    		credits.setCreditsLeft(totalCreditsEarned.longValue() - totalCreditsRedeemed.longValue());
 			return credits;
 		} catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_NOT_FOUND);

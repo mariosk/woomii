@@ -12,9 +12,9 @@ package com.woomii.beta.de.params.responses;
 
 public class RespPaymentInitParams {
 	private boolean redeemEligible;
-	private Long creditsNeeded;
-	private Long creditsEarned;
-	private Long creditsRedeemed;
+	private long creditsNeeded;
+	private long creditsEarned;
+	private long creditsRedeemed;
 	
 	public boolean isRedeemEligible() {
 		return redeemEligible;
@@ -24,27 +24,27 @@ public class RespPaymentInitParams {
 		this.redeemEligible = redeemEligible;
 	}
 
-	public Long getCreditsNeeded() {
+	public long getCreditsNeeded() {
 		return creditsNeeded;
 	}
 
-	public void setCreditsNeeded(Long creditsNeeded) {
+	public void setCreditsNeeded(long creditsNeeded) {
 		this.creditsNeeded = creditsNeeded;
 	}
 
-	public Long getCreditsEarned() {
+	public long getCreditsEarned() {
 		return creditsEarned;
 	}
 
-	public void setCreditsEarned(Long creditsEarned) {
+	public void setCreditsEarned(long creditsEarned) {
 		this.creditsEarned = creditsEarned;
 	}
 
-	public Long getCreditsRedeemed() {
+	public long getCreditsRedeemed() {
 		return creditsRedeemed;
 	}
 
-	public void setCreditsRedeemed(Long creditsRedeemed) {
+	public void setCreditsRedeemed(long creditsRedeemed) {
 		this.creditsRedeemed = creditsRedeemed;
 	}
 }

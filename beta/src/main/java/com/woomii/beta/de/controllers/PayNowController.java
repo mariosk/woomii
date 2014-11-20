@@ -25,6 +25,7 @@ import com.woomii.beta.de.helpers.DatabaseHelpers;
 import com.woomii.beta.de.params.RespCommonParams;
 import com.woomii.beta.de.params.RespErrorParams;
 import com.woomii.beta.de.params.requests.ReqPayNowParams;
+import com.woomii.beta.de.utils.CreditsValues;
 import com.woomii.beta.de.utils.WooMiiException;
 import com.woomii.beta.de.utils.WooMiiUtils;
 import com.woomii.beta.frontend.apps.Apps;
@@ -51,12 +52,21 @@ public class PayNowController {
         		return response;
 
         	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	
+        	/* 
+        	 * Make sure there are enough credits to pay this order
+        	 */
+        	CreditsValues credits = DatabaseHelpers.findTotalCreditsEarned(params.getUuId(), app.getId());
+        	if (credits.getCreditsLeft() < params.getCreditsNeeded()) {
+        		logger.debug("NOT ENOUGH CREDITS TO REDEEM! PAYMENT OF " + params.getCreditsNeeded() + " CANNOT BE DONE FOR UUID = " + params.getUuId() + " APPID = " + params.getAppId() + "CREDITS: " + credits.toString());
+        		throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_CREDITS_NOT_ENOUGH_TO_REDEEM);
+        	}
         	/*
         	 * 1. Insert a new record in TRANSACTIONS table with 
         	 * APP_ID, UID_A=UUID, CAMPAIGN_ID=NULL, TYPE=REDEEM, CREDITS_EARNED=0, CREDITS_REDEEMED=CREDITS_NEEDED. 
         	 * This API call will have 3 delegates (onPaySuccess, onPayFailure, onPayCancel) and the developer is 
         	 * responsible to implement actions/show messages inside each delegate.
-        	 */
+        	 */        	
     		DatabaseHelpers.insertTransaction(params.getUuId(), null, null, app, 0, params.getCreditsNeeded(), TransactionType.REDEMPTION);
     		logger.debug("PAYMENT OF " + params.getCreditsNeeded() + " COMPLETED FOR UUID = " + params.getUuId() + " APPID = " + params.getAppId());
     		

@@ -16,7 +16,7 @@ import com.woomii.beta.de.utils.TransactionsHistory;
 
 public class RespViewCreditsHistoryParams {
 	private Collection<TransactionsHistory> transactions;	
-	private Long totalCreditsLeft;
+	private long totalCreditsLeft;
 	
 	public Collection<TransactionsHistory> getTransactions() {
 		return transactions;
@@ -26,11 +26,11 @@ public class RespViewCreditsHistoryParams {
 		this.transactions = transactions;
 	}
 	
-	public Long getTotalCreditsLeft() {
+	public long getTotalCreditsLeft() {
 		return totalCreditsLeft;
 	}
 	
-	public void setTotalCreditsLeft(Long totalCreditsLeft) {
+	public void setTotalCreditsLeft(long totalCreditsLeft) {
 		this.totalCreditsLeft = totalCreditsLeft;
 	}	
 }

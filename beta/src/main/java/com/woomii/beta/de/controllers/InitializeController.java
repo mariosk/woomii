@@ -126,6 +126,9 @@ public class InitializeController {
 				DatabaseHelpers.insertTransaction(params.getUuId(), params.getUuId(), cmp, app, cmp.getCredits_earn_at_installation_userb(), 0, TransactionType.INSTALLATION);
 				Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang());
 		        if (translation != null) {
+		        	respParams.setColor(cmp.getRgbcolor());
+		        	respParams.setName(cmp.getName());
+		        	respParams.setId(cmpId);
 		        	respParams.setMotto(translation.getMotto());
 		        	respParams.setTerms(translation.getTerms());
 		        	respParams.setWelcomeMsg(translation.getWelcome_msg() + ":: YOU JUST EARNED " + cmp.getCredits_earn_at_installation_userb() + " CREDITS!");	        	

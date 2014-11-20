@@ -152,3 +152,200 @@ exit
 // Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-11-16 20:06:01
 // Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-11-20 00:07:40
 perform package
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-11-20 21:32:20
+entity jpa --class ~.backend.Impressions.Impressions --testAutomatically --table Impressions
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field string --fieldName aff_id --sizeMax 40
+field string --fieldName uuid_a --notNull --sizeMax 40
+field boolean clicked
+field date created --type java.util.Date
+field boolean sandbox_mode
+entity jpa --class ~.backend.Referrals.Referrals --testAutomatically --table Referrals
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field string --fieldName aff_id --sizeMax 40
+field string --fieldName uuid_a --notNull --sizeMax 40
+field string --fieldName uuid_b --sizeMax 40
+field string --fieldName ua_b --notNull --sizeMax 255
+field number --fieldName suggested_friends --type short
+field date created --type java.util.Date
+field boolean sandbox_mode
+entity jpa --class ~.backend.EndUsers.EndUsers --testAutomatically --table EndUsers
+field string --fieldName uuid --notNull --sizeMax 40 --unique
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field string --fieldName pin --notNull --sizeMax 40 --unique
+field boolean app_installed
+field boolean sandbox_mode
+entity jpa --class ~.backend.Transactions.Transactions --testAutomatically --table Transactions
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field date created --type java.util.Date
+field string --fieldName uuid_a --notNull --sizeMax 40
+field string --fieldName uuid_b --sizeMax 40
+field enum --fieldName type --type ~.Types.TransactionType
+field number --fieldName credits_earned --type int
+field number --fieldName credits_redeemed --type int
+field boolean sandbox_mode
+perform clean
+perform eclipse
+exit
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-11-20 21:33:36
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-11-20 21:37:57
+jpa setup --provider HIBERNATE --database POSTGRES --hostName localhost --databaseName woomii --userName postgres --password mrp2014
+exit
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-11-20 21:38:31
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-11-20 22:58:01
+jpa setup --provider HIBERNATE --database POSTGRES --hostName localhost --databaseName woomii --userName postgres --password mrp2014
+development mode --enabled true
+logging setup --level DEBUG --package ALL_SPRING
+enum type --class ~.Types.AgeRangeType
+enum constant --name LESS_THAN_15
+enum constant --name FROM_15_TO_20
+enum constant --name FROM_21_TO_30
+enum constant --name FROM_31_TO_40
+enum constant --name FROM_41_TO_50
+enum constant --name FROM_51_TO_60
+enum constant --name MORE_THAN_61
+enum type --class ~.Types.SexType
+enum constant --name MALE
+enum constant --name FEMALE
+enum type --class ~.Types.TransactionType
+enum constant --name DONATION
+enum constant --name INSTALLATION
+enum constant --name REDEMPTION
+enum constant --name CASH
+enum constant --name TRANSFER
+enum type --class ~.Types.CurrencyType
+enum constant --name USD
+enum constant --name EUR
+enum constant --name JPY
+enum constant --name GBP
+enum constant --name AUD
+enum constant --name CHF
+enum constant --name CAD
+enum constant --name MXN
+enum constant --name CNY
+enum constant --name NZD
+enum constant --name SEK
+enum constant --name RUB
+enum constant --name HKD
+enum constant --name SGD
+enum constant --name TRY
+entity jpa --class ~.frontend.Customers.Customers --testAutomatically --table Customers
+field string --fieldName cust_id --notNull --sizeMax 40 --unique
+field string --fieldName name --sizeMax 64
+field string --fieldName email --sizeMax 32
+field string --fieldName password --sizeMax 32
+field string --fieldName fb_id --sizeMax 16
+field string --fieldName google_id --sizeMax 16
+field file --fieldName logo --contentType JPG
+entity jpa --class ~.frontend.Apps.Apps --testAutomatically --table Apps
+field string --fieldName app_id --notNull --sizeMax 40 --unique
+field reference --fieldName customer --type ~.frontend.Customers.Customers --cardinality MANY_TO_ONE --joinColumnName CustomerId
+field boolean sandbox_mode
+field date sandbox_mode_changed --type java.util.Date
+field string --fieldName bundle_id --notNull --sizeMax 64
+field string --fieldName sdk_version --sizeMax 16
+field date created --type java.util.Date
+field number rate --type float
+field string --fieldName description --sizeMax 255
+field file --fieldName logo --contentType JPG
+entity jpa --class ~.frontend.Languages.Languages --testAutomatically --table Languages
+field string --fieldName code --notNull --sizeMin 2 --sizeMax 2 --unique
+field string --fieldName name --notNull
+entity jpa --class ~.frontend.Campaigns.Campaigns --identifierField Id --identifierColumn Id --identifierType java.lang.Long --testAutomatically --table Campaigns
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field boolean status
+field boolean area_enabled
+field date launch_date --type java.util.Date
+field date expiration_date --type java.util.Date
+field date credits_expiration_date --type java.util.Date
+field number --fieldName when_to_change_demographics --type short
+field string --fieldName num_of_credits_threshold --notNull --sizeMax 32
+field number --fieldName num_of_credits --type int
+field string --fieldName num_of_referrals_threshold --notNull --sizeMax 32
+field number --fieldName num_of_referrals --type int
+field string --fieldName name --notNull --sizeMax 64
+field enum --fieldName currency --type ~.Types.CurrencyType
+field number --fieldName credits_earn_at_installation_usera --type int
+field number --fieldName credits_earn_at_installation_userb --type int
+field number --fieldName credits_earn_at_transaction --type int
+field string --fieldName rgbcolor --sizeMax 6
+entity jpa --class ~.frontend.Translations.Translations --testAutomatically --table Translations
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field reference --fieldName lang --type ~.frontend.Languages.Languages --cardinality ONE_TO_ONE --joinColumnName LanguageId
+field string --fieldName motto --sizeMax 128
+field string --fieldName terms --sizeMax 255
+field string --fieldName referral_done_msg --sizeMax 128
+field string --fieldName referral_error_msg --sizeMax 128
+field string --fieldName welcome_msg --sizeMax 255
+field string --fieldName error_msg --sizeMax 128
+field string --fieldName donation_msg --sizeMax 255
+field string --fieldName donation_error_msg --sizeMax 128
+field string --fieldName enter_pin_msg --sizeMax 255
+field string --fieldName push_msg_after_installation --sizeMax 255
+entity jpa --class ~.frontend.Areas.Areas --testAutomatically --table Areas
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field number --fieldName lat1 --type java.lang.Double
+field number --fieldName lng1 --type java.lang.Double
+field number --fieldName lat2 --type java.lang.Double
+field number --fieldName lng2 --type java.lang.Double
+field number --fieldName lat3 --type java.lang.Double
+field number --fieldName lng3 --type java.lang.Double
+field number --fieldName lat4 --type java.lang.Double
+field number --fieldName lng4 --type java.lang.Double
+entity jpa --class ~.backend.Impressions.Impressions --testAutomatically --table Impressions
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field string --fieldName aff_id --sizeMax 40
+field string --fieldName uuid_a --notNull --sizeMax 40
+field boolean clicked
+field date created --type java.util.Date
+field boolean sandbox_mode
+entity jpa --class ~.backend.Referrals.Referrals --testAutomatically --table Referrals
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field string --fieldName aff_id --sizeMax 40
+field string --fieldName uuid_a --notNull --sizeMax 40
+field string --fieldName uuid_b --sizeMax 40
+field string --fieldName ua_b --notNull --sizeMax 255
+field number --fieldName suggested_friends --type short
+field date created --type java.util.Date
+field boolean sandbox_mode
+entity jpa --class ~.backend.EndUsers.EndUsers --testAutomatically --table EndUsers
+field string --fieldName uuid --notNull --sizeMax 40 --unique
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field string --fieldName pin --notNull --sizeMax 40 --unique
+field boolean app_installed
+field boolean sandbox_mode
+entity jpa --class ~.backend.Demographics.Demographics --testAutomatically --table Demographics
+field reference --fieldName enduser --type ~.backend.EndUsers.EndUsers --cardinality ONE_TO_ONE --joinColumnName EndUserId
+field enum --fieldName sex --type ~.Types.SexType
+field enum --fieldName age --type ~.Types.AgeRangeType
+field string --fieldName name --notNull --sizeMax 64
+field string --fieldName fb_id --sizeMax 16
+field string --fieldName mobile --sizeMax 16
+field string --fieldName email --sizeMax 32
+entity jpa --class ~.backend.Transactions.Transactions --testAutomatically --table Transactions
+field reference --fieldName campaign --type ~.frontend.Campaigns.Campaigns --cardinality MANY_TO_ONE --joinColumnName CampaignId
+field reference --fieldName app --type ~.frontend.Apps.Apps --cardinality MANY_TO_ONE --joinColumnName AppId
+field date created --type java.util.Date
+field string --fieldName uuid_a --notNull --sizeMax 40
+field string --fieldName uuid_b --sizeMax 40
+field enum --fieldName type --type ~.Types.TransactionType
+field number --fieldName credits_earned --type int
+field number --fieldName credits_redeemed --type int
+field boolean sandbox_mode
+entity jpa --class ~.backend.Thresholds.Thresholds --testAutomatically
+field number --fieldName max_referrals --type int
+field number --fieldName max_credits --type int
+json all
+web mvc json all --package ~.json
+web mvc all --package ~.web
+perform clean
+perform package
+perform tests
+perform eclipse
+exit
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-11-20 22:59:49

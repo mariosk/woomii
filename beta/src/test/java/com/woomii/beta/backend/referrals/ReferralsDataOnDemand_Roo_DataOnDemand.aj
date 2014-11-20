@@ -38,6 +38,7 @@ privileged aspect ReferralsDataOnDemand_Roo_DataOnDemand {
         Referrals obj = new Referrals();
         setAff_id(obj, index);
         setCreated(obj, index);
+        setSandbox_mode(obj, index);
         setSuggested_friends(obj, index);
         setUa_b(obj, index);
         setUuid_a(obj, index);
@@ -56,6 +57,11 @@ privileged aspect ReferralsDataOnDemand_Roo_DataOnDemand {
     public void ReferralsDataOnDemand.setCreated(Referrals obj, int index) {
         Date created = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setCreated(created);
+    }
+    
+    public void ReferralsDataOnDemand.setSandbox_mode(Referrals obj, int index) {
+        Boolean sandbox_mode = Boolean.TRUE;
+        obj.setSandbox_mode(sandbox_mode);
     }
     
     public void ReferralsDataOnDemand.setSuggested_friends(Referrals obj, int index) {

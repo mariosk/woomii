@@ -39,6 +39,7 @@ privileged aspect ImpressionsDataOnDemand_Roo_DataOnDemand {
         setAff_id(obj, index);
         setClicked(obj, index);
         setCreated(obj, index);
+        setSandbox_mode(obj, index);
         setUuid_a(obj, index);
         return obj;
     }
@@ -59,6 +60,11 @@ privileged aspect ImpressionsDataOnDemand_Roo_DataOnDemand {
     public void ImpressionsDataOnDemand.setCreated(Impressions obj, int index) {
         Date created = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setCreated(created);
+    }
+    
+    public void ImpressionsDataOnDemand.setSandbox_mode(Impressions obj, int index) {
+        Boolean sandbox_mode = Boolean.TRUE;
+        obj.setSandbox_mode(sandbox_mode);
     }
     
     public void ImpressionsDataOnDemand.setUuid_a(Impressions obj, int index) {

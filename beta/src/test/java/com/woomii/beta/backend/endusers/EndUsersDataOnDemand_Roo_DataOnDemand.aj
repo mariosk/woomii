@@ -31,6 +31,7 @@ privileged aspect EndUsersDataOnDemand_Roo_DataOnDemand {
         EndUsers obj = new EndUsers();
         setApp_installed(obj, index);
         setPin(obj, index);
+        setSandbox_mode(obj, index);
         setUuid(obj, index);
         return obj;
     }
@@ -46,6 +47,11 @@ privileged aspect EndUsersDataOnDemand_Roo_DataOnDemand {
             pin = new Random().nextInt(10) + pin.substring(1, 40);
         }
         obj.setPin(pin);
+    }
+    
+    public void EndUsersDataOnDemand.setSandbox_mode(EndUsers obj, int index) {
+        Boolean sandbox_mode = Boolean.TRUE;
+        obj.setSandbox_mode(sandbox_mode);
     }
     
     public void EndUsersDataOnDemand.setUuid(EndUsers obj, int index) {

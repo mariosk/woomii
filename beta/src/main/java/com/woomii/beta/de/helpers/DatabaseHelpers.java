@@ -11,6 +11,7 @@
 package com.woomii.beta.de.helpers;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -48,9 +49,51 @@ public class DatabaseHelpers {
 
 	 */
 	
+	public static void updateAppWithSandBoxMode(Apps app, boolean sandBoxMode) throws Exception {
+		app.setSandbox_mode(sandBoxMode);
+		app.setSandbox_mode_changed(new Date());
+		app.merge();
+	}
+
+	public static void deleteAllTransactionsByAppIdInSandBox(Long appId) throws Exception {
+		List<Transactions> transactions = Transactions.entityManager().createQuery("SELECT o FROM Transactions o WHERE APP_ID = '" + appId + "' AND SANDBOX_MODE = 'true'", Transactions.class).getResultList();
+		Iterator<Transactions> i = transactions.iterator();
+    	while(i.hasNext()) {
+    		Transactions trans = i.next();
+    		trans.remove();
+    	}
+	}
+	
+	public static void deleteAllEndUsersByAppIdInSandBox(Long appId) throws Exception {
+		List<EndUsers> endUsers = EndUsers.entityManager().createQuery("SELECT o FROM EndUsers o WHERE APP_ID = '" + appId + "' AND SANDBOX_MODE = 'true'", EndUsers.class).getResultList();
+		Iterator<EndUsers> i = endUsers.iterator();
+    	while(i.hasNext()) {
+    		EndUsers user = i.next();
+    		user.remove();
+    	}
+	}
+	
+	public static void deleteAllReferralsByAppIdInSandBox(Long appId) throws Exception {
+		List<Referrals> referrals = Referrals.entityManager().createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + appId + "' AND SANDBOX_MODE = 'true'", Referrals.class).getResultList();
+		Iterator<Referrals> i = referrals.iterator();
+    	while(i.hasNext()) {
+    		Referrals ref = i.next();
+    		ref.remove();
+    	}
+	}
+	
+	public static void deleteAllImpressionsByAppIdInSandBox(Long appId) throws Exception {
+		List<Impressions> impressions = Impressions.entityManager().createQuery("SELECT o FROM Impressions o WHERE APP_ID = '" + appId + "' AND SANDBOX_MODE = 'true'", Impressions.class).getResultList();
+		Iterator<Impressions> i = impressions.iterator();
+    	while(i.hasNext()) {
+    		Impressions imp = i.next();
+    		imp.remove();
+    	}
+	}
+	
 	public static Apps findAppByAppId(String appId) throws Exception {
 		try {
-			Apps app = EndUsers.entityManager().createQuery("SELECT o FROM Apps o WHERE APP_ID = '" + appId + "'", Apps.class).getSingleResult();
+			Apps app = Apps.entityManager().createQuery("SELECT o FROM Apps o WHERE APP_ID = '" + appId + "'", Apps.class).getSingleResult();
 			return app;
 		} catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_APPID_NOT_FOUND);
@@ -240,6 +283,7 @@ public class DatabaseHelpers {
 			}
 		}
 		Transactions transaction = new Transactions();
+		transaction.setSandbox_mode(app.getSandbox_mode());
 		transaction.setCampaign(cmp);
 		transaction.setApp(app);
 		transaction.setUuid_a(uidA);
@@ -256,6 +300,7 @@ public class DatabaseHelpers {
 		user.setUuid(uuId);
 		user.setPin(WooMiiUtils.getRandomPIN());
 		user.setApp_installed(true);
+		user.setSandbox_mode(app.getSandbox_mode());
 		user.merge();
 	}
 
@@ -268,7 +313,8 @@ public class DatabaseHelpers {
 			if (imp == null) {
 				imp = new Impressions();	
 			}
-		}						
+		}
+		imp.setSandbox_mode(app.getSandbox_mode());
 		imp.setApp(app);
 		imp.setUuid_a(uuId);
 		imp.setCampaign(cmp);
@@ -288,7 +334,8 @@ public class DatabaseHelpers {
 			if (ref == null) {
 				ref = new Referrals();
 			}
-		}						
+		}		
+		ref.setSandbox_mode(app.getSandbox_mode());
 		ref.setAff_id(affId);
 		ref.setApp(app);
 		ref.setCampaign(cmp);

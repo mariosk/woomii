@@ -14,6 +14,7 @@ public class ReqCommonParams {
 	private String uuId;
 	private String appId;
 	private String lang;
+	private boolean sandBoxMode;
 	
 	public String getUuId() {
 		return uuId;
@@ -37,5 +38,13 @@ public class ReqCommonParams {
 
 	public void setLang(String lang) {
 		this.lang = lang;
+	}
+
+	public boolean getSandBoxMode() {
+		return sandBoxMode;
+	}
+
+	public void setSandBoxMode(boolean sandBoxMode) {
+		this.sandBoxMode = sandBoxMode;
 	}	
 }

@@ -39,4 +39,8 @@ public class EndUsers {
     /**
      */
     private Boolean app_installed;
+
+    /**
+     */
+    private Boolean sandbox_mode;
 }

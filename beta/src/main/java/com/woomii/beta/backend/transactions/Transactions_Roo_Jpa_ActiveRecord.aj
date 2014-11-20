@@ -14,7 +14,7 @@ privileged aspect Transactions_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Transactions.entityManager;
     
-    public static final List<String> Transactions.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "created", "uuid_a", "uuid_b", "type", "credits_earned", "credits_redeemed");
+    public static final List<String> Transactions.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "created", "uuid_a", "uuid_b", "type", "credits_earned", "credits_redeemed", "sandbox_mode");
     
     public static final EntityManager Transactions.entityManager() {
         EntityManager em = new Transactions().entityManager;

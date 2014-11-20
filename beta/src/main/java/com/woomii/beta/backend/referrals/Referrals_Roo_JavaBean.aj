@@ -74,4 +74,12 @@ privileged aspect Referrals_Roo_JavaBean {
         this.created = created;
     }
     
+    public Boolean Referrals.getSandbox_mode() {
+        return this.sandbox_mode;
+    }
+    
+    public void Referrals.setSandbox_mode(Boolean sandbox_mode) {
+        this.sandbox_mode = sandbox_mode;
+    }
+    
 }

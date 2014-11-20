@@ -10,5 +10,6 @@
         <field:display field="type" id="s_com_woomii_beta_backend_transactions_Transactions_type" object="${transactions}" z="YwlPhrAdhmYP+M5uClrHyBuMWXQ="/>
         <field:display field="credits_earned" id="s_com_woomii_beta_backend_transactions_Transactions_credits_earned" object="${transactions}" z="OLlefq0qk//5qyjTiEhVrd1LB2Y="/>
         <field:display field="credits_redeemed" id="s_com_woomii_beta_backend_transactions_Transactions_credits_redeemed" object="${transactions}" z="5DBXBSfGcmy85/tIsOmfRWiCM9c="/>
+        <field:display field="sandbox_mode" id="s_com_woomii_beta_backend_transactions_Transactions_sandbox_mode" object="${transactions}" z="Jz3yrnQ8i3Oh8xDVqVNeJxKkSC0="/>
     </page:show>
 </div>

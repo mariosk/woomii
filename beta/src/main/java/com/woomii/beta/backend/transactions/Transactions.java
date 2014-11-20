@@ -65,4 +65,8 @@ public class Transactions {
     /**
      */
     private int credits_redeemed;
+
+    /**
+     */
+    private Boolean sandbox_mode;
 }

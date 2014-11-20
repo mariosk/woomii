@@ -14,7 +14,7 @@ privileged aspect Referrals_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Referrals.entityManager;
     
-    public static final List<String> Referrals.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "aff_id", "uuid_a", "uuid_b", "ua_b", "suggested_friends", "created");
+    public static final List<String> Referrals.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "aff_id", "uuid_a", "uuid_b", "ua_b", "suggested_friends", "created", "sandbox_mode");
     
     public static final EntityManager Referrals.entityManager() {
         EntityManager em = new Referrals().entityManager;

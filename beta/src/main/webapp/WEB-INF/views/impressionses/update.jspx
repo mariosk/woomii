@@ -8,5 +8,6 @@
         <field:textarea field="aff_id" id="c_com_woomii_beta_backend_impressions_Impressions_aff_id" z="Pw/1QQ4K8AGLYDyPoT7x5eS2iJU="/>
         <field:textarea field="uuid_a" id="c_com_woomii_beta_backend_impressions_Impressions_uuid_a" required="true" z="ItHeMo1IFMU+hyyLoPcD41nRfOk="/>
         <field:checkbox field="clicked" id="c_com_woomii_beta_backend_impressions_Impressions_clicked" z="ecUx8lPBrtQc9L4V+lf9NG0UlIU="/>
+        <field:checkbox field="sandbox_mode" id="c_com_woomii_beta_backend_impressions_Impressions_sandbox_mode" z="XVvv+zKS1mjhpvdCBlfaQn/EG+Q="/>
     </form:update>
 </div>

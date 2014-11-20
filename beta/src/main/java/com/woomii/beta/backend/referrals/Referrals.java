@@ -65,4 +65,8 @@ public class Referrals {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "M-")
     private Date created = new Date();
+
+    /**
+     */
+    private Boolean sandbox_mode;
 }

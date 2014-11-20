@@ -8,6 +8,7 @@
             <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_app" property="app" z="oMEbZjmZ8EwKBKnMugqcUsDtDKk="/>
             <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_pin" property="pin" z="EkwK+8cd4jYeI7wLc300wWPyuxM="/>
             <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_app_installed" property="app_installed" z="y4O3Tm/peyUY5MNeHBKqMaqxiHI="/>
+            <table:column id="c_com_woomii_beta_backend_endusers_EndUsers_sandbox_mode" property="sandbox_mode" z="D/mjWQhZBEK0UFNksIGJXQoSkc8="/>
         </table:table>
     </page:list>
 </div>

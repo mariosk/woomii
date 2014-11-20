@@ -75,4 +75,12 @@ privileged aspect Transactions_Roo_JavaBean {
         this.credits_redeemed = credits_redeemed;
     }
     
+    public Boolean Transactions.getSandbox_mode() {
+        return this.sandbox_mode;
+    }
+    
+    public void Transactions.setSandbox_mode(Boolean sandbox_mode) {
+        this.sandbox_mode = sandbox_mode;
+    }
+    
 }

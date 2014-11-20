@@ -153,6 +153,23 @@ public class InitializeController {
         		return response;
         	        	        
         	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	/*
+        	 *  In this case we need to delete all the records from 4 tables that for this appId
+        	 *  sandBoxMode is equal to "TRUE".
+        	 */
+        	if (app.getSandbox_mode() != null && app.getSandbox_mode() == true && params.getSandBoxMode() == false) {
+        		DatabaseHelpers.deleteAllEndUsersByAppIdInSandBox(app.getId());
+        		DatabaseHelpers.deleteAllImpressionsByAppIdInSandBox(app.getId());
+        		DatabaseHelpers.deleteAllReferralsByAppIdInSandBox(app.getId());
+        		DatabaseHelpers.deleteAllTransactionsByAppIdInSandBox(app.getId());        		
+        	}
+        	
+        	/*
+        	 * If sandBoxMode changed let's update it in the Apps table
+        	 */
+        	if (app.getSandbox_mode() != null && app.getSandbox_mode() != params.getSandBoxMode()) {
+        		DatabaseHelpers.updateAppWithSandBoxMode(app, params.getSandBoxMode());
+        	}
         	
 	        RespInitializeParams resParams = getInitializeResponse(params, userAgent, errorResponse, app);
 	        if (resParams == null) {        	        	

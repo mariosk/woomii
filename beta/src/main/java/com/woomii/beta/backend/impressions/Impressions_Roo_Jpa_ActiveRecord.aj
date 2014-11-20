@@ -14,7 +14,7 @@ privileged aspect Impressions_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Impressions.entityManager;
     
-    public static final List<String> Impressions.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "aff_id", "uuid_a", "clicked", "created");
+    public static final List<String> Impressions.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "aff_id", "uuid_a", "clicked", "created", "sandbox_mode");
     
     public static final EntityManager Impressions.entityManager() {
         EntityManager em = new Impressions().entityManager;

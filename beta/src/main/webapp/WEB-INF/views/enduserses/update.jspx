@@ -7,5 +7,6 @@
         <field:select field="app" id="c_com_woomii_beta_backend_endusers_EndUsers_app" itemValue="id" items="${appses}" path="/appses" z="AZ2Ux2Nj1XPr2QFxpkYztNF3K2U="/>
         <field:textarea field="pin" id="c_com_woomii_beta_backend_endusers_EndUsers_pin" required="true" z="IQ5pyDz6IxNKyhtP4qGCCFMTVnc="/>
         <field:checkbox field="app_installed" id="c_com_woomii_beta_backend_endusers_EndUsers_app_installed" z="7aPV6b6hHuiDWwoyN4vbn51D0Ls="/>
+        <field:checkbox field="sandbox_mode" id="c_com_woomii_beta_backend_endusers_EndUsers_sandbox_mode" z="Y+Bza7RvOC/5MhVxntRlAbKSV2A="/>
     </form:update>
 </div>

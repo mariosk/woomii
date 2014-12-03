@@ -11,17 +11,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Customers_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+    @PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Customers.entityManager;
-    
-    public static final List<String> Customers.fieldNames4OrderClauseFilter = java.util.Arrays.asList("cust_id", "name", "email", "password", "fb_id", "google_id", "logo");
-    
+
+    @PersistenceContext(unitName="persistenceUnitSandbox")
+    transient EntityManager Customers.sandboxEntityManager;
+
     public static final EntityManager Customers.entityManager() {
         EntityManager em = new Customers().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
+    public static final EntityManager Customers.sandboxEntityManager() {
+        EntityManager em = new Customers().sandboxEntityManager;
+        if (em == null) throw new IllegalStateException("Sandbox entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static final List<String> Customers.fieldNames4OrderClauseFilter = java.util.Arrays.asList("cust_id", "name", "email", "password", "fb_id", "google_id", "logo");
+       
     public static long Customers.countCustomerses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Customers o", Long.class).getSingleResult();
     }

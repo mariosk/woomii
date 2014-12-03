@@ -10,6 +10,5 @@
         <field:textarea field="uuid_b" id="c_com_woomii_beta_backend_referrals_Referrals_uuid_b" z="6fA2sXKy+SvjqBo4KZEPcnYM1d0="/>
         <field:textarea field="ua_b" id="c_com_woomii_beta_backend_referrals_Referrals_ua_b" required="true" z="4w8MXxZHBthwrB1+YqBz/iYcmQA="/>
         <field:input field="suggested_friends" id="c_com_woomii_beta_backend_referrals_Referrals_suggested_friends" z="+RqYOjLyUOEmH7ASqW/VZC/4MSw="/>
-        <field:checkbox field="sandbox_mode" id="c_com_woomii_beta_backend_referrals_Referrals_sandbox_mode" z="VuZBcYgtTcUnTpvl2VcQsS68DU8="/>
     </form:update>
 </div>

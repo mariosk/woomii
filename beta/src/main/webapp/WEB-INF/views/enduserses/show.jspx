@@ -7,6 +7,5 @@
         <field:display field="app" id="s_com_woomii_beta_backend_endusers_EndUsers_app" object="${endusers}" z="CrqmQGZq5HSXomXT92GOquCpnlQ="/>
         <field:display field="pin" id="s_com_woomii_beta_backend_endusers_EndUsers_pin" object="${endusers}" z="VbYM/LZhC57C32+WVX/PGwFfk/U="/>
         <field:display field="app_installed" id="s_com_woomii_beta_backend_endusers_EndUsers_app_installed" object="${endusers}" z="tEryoETnM0Q1KBoobRIvvOkMKKc="/>
-        <field:display field="sandbox_mode" id="s_com_woomii_beta_backend_endusers_EndUsers_sandbox_mode" object="${endusers}" z="pXlv9txDcOz4O1CK9g+c004wisw="/>
     </page:show>
 </div>

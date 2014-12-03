@@ -41,24 +41,29 @@ public class DonateUserAController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(DonateUserAController.class);
     
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> AddUserSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+		return DonateUserA(jsonRequestBody, userAgent, true);
+	}
+	
 	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> DonateUserA(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+    public ResponseEntity<String> DonateUserA(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
 		HttpHeaders headers = new HttpHeaders();
         RespErrorParams errorResponse = new RespErrorParams();
                 
         try {
             ReqDonateUserAParams params = (ReqDonateUserAParams) WooMiiUtils.fromJson(jsonRequestBody, ReqDonateUserAParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
 
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);
         	/*
         	 	1. Find out who is User-A that User-B (UUID) should donate. This can be done from table REFERRALS. 
             	A search on the table for UID_B==UUID and UID_A!=UUID. This record contains UID_A that is to be donated.
             	One record should be found here. If more than one is found it seems we have been attacked.
         	 */
-    		String uidA = DatabaseHelpers.findUserAByUserB(params.getUuId(), params.getCmpId(), app.getId());
+    		String uidA = DatabaseHelpers.findUserAByUserB(params.getUuId(), params.getCmpId(), app.getId(), sandbox);
     		if (uidA == null) {
     			errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_USER_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);    			
@@ -66,7 +71,7 @@ public class DonateUserAController {
     		/*
     		 * 2. Search in CAMPAIGNS table for the value of the CREDITS_EARN_AT_TRANSACTION.
     		 */    		
-    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
+    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId(), sandbox);
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);        	
@@ -76,13 +81,13 @@ public class DonateUserAController {
 			/*
 			 * 3. Insert a new record in TRANSACTIONS table: (CAMPAIGN_ID, APP_ID, UID_A, UUID=UID_B, DONATION, CREDITS_EARNED=CREDITS_EARN_AT_TRANSACTION)
 			 */
-			DatabaseHelpers.insertTransaction(uidA, params.getUuId(), cmp, app, cmp.getCredits_earn_at_transaction(), 0, TransactionType.DONATION);
+			DatabaseHelpers.insertTransaction(uidA, params.getUuId(), cmp, app, cmp.getCredits_earn_at_transaction(), 0, TransactionType.DONATION, sandbox);
 						
 			/*
 			 * 4. Constructs a DONATION_MSG according to the language that informs User-B about how many credits User-A just earned.
 			 */
 			RespDonateUserAParams respParams = new RespDonateUserAParams();
-			Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(params.getCmpId(), params.getLang());
+			Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(params.getCmpId(), params.getLang(), sandbox);
 			if (translation != null) {
 				respParams.setDonationMsg(translation.getDonation_msg());				
 			}

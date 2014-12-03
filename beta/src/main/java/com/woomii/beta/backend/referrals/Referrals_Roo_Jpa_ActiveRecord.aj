@@ -11,17 +11,42 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Referrals_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+    @PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Referrals.entityManager;
-    
-    public static final List<String> Referrals.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "aff_id", "uuid_a", "uuid_b", "ua_b", "suggested_friends", "created", "sandbox_mode");
-    
+
+	@PersistenceContext(unitName="persistenceUnitSandbox")
+    transient EntityManager Referrals.sandBoxEntityManager;
+
     public static final EntityManager Referrals.entityManager() {
         EntityManager em = new Referrals().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        if (em == null) throw new IllegalStateException("Production Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+
+    public static final EntityManager Referrals.sandboxEntityManager() {
+        EntityManager em = new Referrals().sandBoxEntityManager;
+        if (em == null) throw new IllegalStateException("Sandbox Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
+    @Transactional("transactionManagerProduction")
+    public Referrals Referrals.mergeProduction() {
+        if (this.sandBoxEntityManager == null) this.entityManager = entityManager();
+        Referrals merged = this.entityManager.merge(this);
+        this.entityManager.flush();
+        return merged;
+    }
+	    
+    @Transactional("transactionManagerSandbox")
+    public Referrals Referrals.mergeSandbox() {
+        if (this.sandBoxEntityManager == null) this.sandBoxEntityManager = sandboxEntityManager();
+        Referrals merged = this.sandBoxEntityManager.merge(this);
+        this.sandBoxEntityManager.flush();
+        return merged;
+    }
+    
+    public static final List<String> Referrals.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "app", "aff_id", "uuid_a", "uuid_b", "ua_b", "suggested_friends", "created");
+       
     public static long Referrals.countReferralses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Referrals o", Long.class).getSingleResult();
     }

@@ -9,7 +9,7 @@
         <field:textarea field="password" id="c_com_woomii_beta_frontend_customers_Customers_password" z="E8fBsSqnJK6LtuI3ZQzfmfLeMDg="/>
         <field:input field="fb_id" id="c_com_woomii_beta_frontend_customers_Customers_fb_id" max="16" z="1SdXvehnSkmxAQJ+Iat2uBR48ws="/>
         <field:input field="google_id" id="c_com_woomii_beta_frontend_customers_Customers_google_id" max="16" z="v51R6Po6uHWJX24Oyx+7Bs25Y0E="/>
-        <field:textarea field="logo" id="c_com_woomii_beta_frontend_customers_Customers_logo" z="N1wzvcqb0VboAlSyTvgLR+2+4F8="/>
+        <field:input field="logo" id="c_com_woomii_beta_frontend_customers_Customers_logo" z="bh2l2ceW/FXfMc3B6kwgCByOob0="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_com_woomii_beta_frontend_customers_Customers" render="${not empty dependencies}" z="5NMRrnyTHZnmhXwCZQi+Zq5+QR4="/>
 </div>

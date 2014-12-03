@@ -38,8 +38,6 @@ privileged aspect AppsDataOnDemand_Roo_DataOnDemand {
         setDescription(obj, index);
         setLogo(obj, index);
         setRate(obj, index);
-        setSandbox_mode(obj, index);
-        setSandbox_mode_changed(obj, index);
         setSdk_version(obj, index);
         return obj;
     }
@@ -81,16 +79,6 @@ privileged aspect AppsDataOnDemand_Roo_DataOnDemand {
     public void AppsDataOnDemand.setRate(Apps obj, int index) {
         float rate = new Integer(index).floatValue();
         obj.setRate(rate);
-    }
-    
-    public void AppsDataOnDemand.setSandbox_mode(Apps obj, int index) {
-        Boolean sandbox_mode = Boolean.TRUE;
-        obj.setSandbox_mode(sandbox_mode);
-    }
-    
-    public void AppsDataOnDemand.setSandbox_mode_changed(Apps obj, int index) {
-        Date sandbox_mode_changed = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
-        obj.setSandbox_mode_changed(sandbox_mode_changed);
     }
     
     public void AppsDataOnDemand.setSdk_version(Apps obj, int index) {

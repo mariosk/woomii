@@ -46,7 +46,42 @@ public class InitializeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(InitializeController.class);
 	
-	private static RespInitializeParams getInitializeResponse(ReqInitializeParams params, String userAgentB, RespErrorParams errorResponse, Apps app) throws Exception {				
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> InitializeSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+		return Initialize(jsonRequestBody, userAgent, true);
+	}
+	
+	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
+    public ResponseEntity<String> Initialize(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
+		HttpHeaders headers = new HttpHeaders();
+        RespErrorParams errorResponse = new RespErrorParams();
+        
+        try {
+        	ReqInitializeParams params = WooMiiUtils.fromJson(jsonRequestBody, ReqInitializeParams.class);
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
+        	if (response != null)
+        		return response;
+        	        	        
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);       	
+        	
+	        RespInitializeParams resParams = getInitializeResponse(params, userAgent, errorResponse, app, sandbox);
+	        if (resParams == null) {        	        	
+	        	return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
+	        }
+	        else {	        		        	        			        	
+	        	return new ResponseEntity<String>(WooMiiUtils.toJsonString(resParams), headers, HttpStatus.OK);
+	        }
+    	}
+    	catch (WooMiiException ex) {
+    		return WooMiiUtils.handleWooMiiException(ex, headers, errorResponse);
+    	}        	                
+    	catch (Exception ex) {
+    		return WooMiiUtils.handleGenericException(ex, headers, errorResponse);
+    	}      	        
+		
+	}
+	
+	private static RespInitializeParams getInitializeResponse(ReqInitializeParams params, String userAgentB, RespErrorParams errorResponse, Apps app, boolean sandbox) throws Exception {				
 		/*
 		2. If [PIN == NULL] the server retrieves {CAMPAIGN_NAME, CAMPAIGN_ID, MOTTO, TERMS, COLOR} from CAMPAIGNS table using the APP_ID. 
 		Also, the server should check against the location of the user, whether this campaign is enabled for this position or not!
@@ -54,7 +89,7 @@ public class InitializeController {
 		*/
 		RespInitializeParams respParams = new RespInitializeParams();
 		if (params.getPin() == null) {
-			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
+			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId(), sandbox);
 			if (cmp == null) {
 	        	errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 	        	return null;
@@ -66,7 +101,7 @@ public class InitializeController {
 			respParams.setColor(cmp.getRgbcolor());
 	        // for motto, terms and welcome message we need to use the 2 char code of the language.
 	        // then we must search the translation by campaign id AND language id.
-	        Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang());
+	        Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang(), sandbox);
 	        if (translation != null) {
 	        	respParams.setMotto(translation.getMotto());
 	        	respParams.setTerms(translation.getTerms());
@@ -78,7 +113,7 @@ public class InitializeController {
 			/* 3. Else If PIN is NOT NULL the server:
 				a. Retrieves UID_A from PIN.
 			*/
-			EndUsers userA = DatabaseHelpers.findUserByPIN(params.getPin());
+			EndUsers userA = DatabaseHelpers.findUserByPIN(params.getPin(), sandbox);
 			if (userA == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_USER_NOT_FOUND.ordinal());
 	        	return null;
@@ -88,7 +123,7 @@ public class InitializeController {
 			 * b. Looks for an active CAMPAIGN in CAMPAIGNS table by using the APP_ID. 
 			 * The CAMPAIGN_ID returned is used below to retrieve the record from REFERRALS.
 			 */
-			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
+			Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId(), sandbox);
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 	        	return null;
@@ -97,7 +132,7 @@ public class InitializeController {
 			/*
 			 * c. Searches in the REFERRALS table for UID_A and UID_B (=EMPTY).
 			 */
-			List<Referrals> referrals = DatabaseHelpers.findReferralsByUID_A(uidA, cmpId, app.getId());
+			List<Referrals> referrals = DatabaseHelpers.findReferralsByUID_A(uidA, cmpId, app.getId(), sandbox);
 			if (referrals != null && referrals.size() > 0) {
 				/*
 				 * d. If it finds such a record, 
@@ -105,7 +140,7 @@ public class InitializeController {
 				 * in REFERRALS: Referral(UID_A, APP_ID, CAMPAIGN_ID, UID_B, UA_B). 
 				 * This is actually the association between User-A and User-B.
 				 */			
-				DatabaseHelpers.makeAssociationOfUserAAndUserB(uidA, params.getUuId(), cmp, userAgentB, app);
+				DatabaseHelpers.makeAssociationOfUserAAndUserB(uidA, params.getUuId(), cmp, userAgentB, app, sandbox);
 			}
 			/*
 			 * e. IFF (CREDITS_EARN_AT_INSTALLATION_USER_B > 0) server:
@@ -123,8 +158,15 @@ public class InitializeController {
 			 */
 			
 			if (cmp.getCredits_earn_at_installation_userb() > 0) {
-				DatabaseHelpers.insertTransaction(params.getUuId(), params.getUuId(), cmp, app, cmp.getCredits_earn_at_installation_userb(), 0, TransactionType.INSTALLATION);
-				Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang());
+				DatabaseHelpers.insertTransaction(params.getUuId(), 
+												  params.getUuId(), 
+												  cmp, 
+												  app, 
+												  cmp.getCredits_earn_at_installation_userb(), 
+												  0, 
+												  TransactionType.INSTALLATION, 
+												  sandbox);
+				Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang(), sandbox);
 		        if (translation != null) {
 		        	respParams.setColor(cmp.getRgbcolor());
 		        	respParams.setName(cmp.getName());
@@ -141,51 +183,4 @@ public class InitializeController {
 		}
     }    
 	
-	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> Initialize(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
-		HttpHeaders headers = new HttpHeaders();
-        RespErrorParams errorResponse = new RespErrorParams();
-        
-        try {
-        	ReqInitializeParams params = WooMiiUtils.fromJson(jsonRequestBody, ReqInitializeParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
-        	if (response != null)
-        		return response;
-        	        	        
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
-        	/*
-        	 *  In this case we need to delete all the records from 4 tables that for this appId
-        	 *  sandBoxMode is equal to "TRUE".
-        	 */
-        	if (app.getSandbox_mode() != null && app.getSandbox_mode() == true && params.getSandBoxMode() == false) {
-        		DatabaseHelpers.deleteAllEndUsersByAppIdInSandBox(app.getId());
-        		DatabaseHelpers.deleteAllImpressionsByAppIdInSandBox(app.getId());
-        		DatabaseHelpers.deleteAllReferralsByAppIdInSandBox(app.getId());
-        		DatabaseHelpers.deleteAllTransactionsByAppIdInSandBox(app.getId());        		
-        	}
-        	
-        	/*
-        	 * If sandBoxMode changed let's update it in the Apps table
-        	 */
-        	if (app.getSandbox_mode() != null && app.getSandbox_mode() != params.getSandBoxMode()) {
-        		DatabaseHelpers.updateAppWithSandBoxMode(app, params.getSandBoxMode());
-        	}
-        	
-	        RespInitializeParams resParams = getInitializeResponse(params, userAgent, errorResponse, app);
-	        if (resParams == null) {        	        	
-	        	return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
-	        }
-	        else {	        		        	        			        	
-	        	return new ResponseEntity<String>(WooMiiUtils.toJsonString(resParams), headers, HttpStatus.OK);
-	        }
-    	}
-    	catch (WooMiiException ex) {
-    		return WooMiiUtils.handleWooMiiException(ex, headers, errorResponse);
-    	}        	                
-    	catch (Exception ex) {
-    		return WooMiiUtils.handleGenericException(ex, headers, errorResponse);
-    	}      	        
-		
-	}
-
 }

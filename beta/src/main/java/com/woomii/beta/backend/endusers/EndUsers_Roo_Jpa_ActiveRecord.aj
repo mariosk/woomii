@@ -11,17 +11,42 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect EndUsers_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+	@PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager EndUsers.entityManager;
-    
-    public static final List<String> EndUsers.fieldNames4OrderClauseFilter = java.util.Arrays.asList("uuid", "app", "pin", "app_installed", "sandbox_mode");
+
+    @PersistenceContext(unitName="persistenceUnitSandbox")
+    transient EntityManager EndUsers.sandBoxEntityManager;
     
     public static final EntityManager EndUsers.entityManager() {
         EntityManager em = new EndUsers().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        if (em == null) throw new IllegalStateException("Production Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
+    public static final EntityManager EndUsers.sandboxEntityManager() {
+        EntityManager em = new EndUsers().sandBoxEntityManager;
+        if (em == null) throw new IllegalStateException("Sandbox Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+        
+    @Transactional("transactionManagerProduction")
+    public EndUsers EndUsers.mergeProduction() {
+        if (this.entityManager == null) this.entityManager = entityManager();
+        EndUsers merged = this.entityManager.merge(this);
+        this.entityManager.flush();
+        return merged;
+    }
+           
+    @Transactional("transactionManagerSandbox")
+    public EndUsers EndUsers.mergeSandbox() {
+        if (this.sandBoxEntityManager == null) this.sandBoxEntityManager = sandboxEntityManager();
+        EndUsers merged = this.sandBoxEntityManager.merge(this);
+        this.sandBoxEntityManager.flush();
+        return merged;
+    }
+        
+    public static final List<String> EndUsers.fieldNames4OrderClauseFilter = java.util.Arrays.asList("uuid", "app", "pin", "app_installed");
+       
     public static long EndUsers.countEndUserses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM EndUsers o", Long.class).getSingleResult();
     }

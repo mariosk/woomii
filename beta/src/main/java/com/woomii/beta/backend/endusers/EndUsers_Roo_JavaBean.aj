@@ -40,12 +40,4 @@ privileged aspect EndUsers_Roo_JavaBean {
         this.app_installed = app_installed;
     }
     
-    public Boolean EndUsers.getSandbox_mode() {
-        return this.sandbox_mode;
-    }
-    
-    public void EndUsers.setSandbox_mode(Boolean sandbox_mode) {
-        this.sandbox_mode = sandbox_mode;
-    }
-    
 }

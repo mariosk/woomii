@@ -37,22 +37,27 @@ public class IsAppInstalledController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(IsAppInstalledController.class);
     
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> IsAppInstalledSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+		return IsAppInstalled(jsonRequestBody, userAgent, true);
+	}
+
 	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> IsAppInstalled(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+    public ResponseEntity<String> IsAppInstalled(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
 		HttpHeaders headers = new HttpHeaders();
 		RespErrorParams errorResponse = new RespErrorParams();
 		
         try {        	        
         	ReqCommonParams params = WooMiiUtils.fromJson(jsonRequestBody, ReqCommonParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
         	
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);
         	String fields[] = new String[1];
         	fields[0] = "app_installed";        	
         	                 			
-	        EndUsers user = DatabaseHelpers.findEndUserByUUIDAndAPPId(params.getUuId(), app.getId());
+	        EndUsers user = DatabaseHelpers.findEndUserByUUIDAndAPPId(params.getUuId(), app.getId(), sandbox);
 	        if (user == null) {        	        	
 	        	return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 	        }
@@ -65,7 +70,7 @@ public class IsAppInstalledController {
 	        		/*
 	        		 * 2. Else If there are no records in REFERRALS table where [(UUID != REFERRAL.UID_A) && (UUID != REFERRAL.UID_B)] then return INSTALLED = TRUE and exit. 
 	        		 */
-	        		user.setApp_installed(DatabaseHelpers.findReferralsByUID_AOrUID_B(params.getUuId(), app.getId()));	        		
+	        		user.setApp_installed(DatabaseHelpers.findReferralsByUID_AOrUID_B(params.getUuId(), app.getId(), sandbox));	        		
 	        	}
 	        }	        	        	        			        	
 	        return new ResponseEntity<String>(WooMiiUtils.replaceBooleanWithBit(WooMiiUtils.toJsonString(user, fields), user.getApp_installed()), headers, HttpStatus.OK);

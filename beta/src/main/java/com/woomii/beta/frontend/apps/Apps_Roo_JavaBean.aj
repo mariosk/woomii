@@ -25,22 +25,6 @@ privileged aspect Apps_Roo_JavaBean {
         this.customer = customer;
     }
     
-    public Boolean Apps.getSandbox_mode() {
-        return this.sandbox_mode;
-    }
-    
-    public void Apps.setSandbox_mode(Boolean sandbox_mode) {
-        this.sandbox_mode = sandbox_mode;
-    }
-    
-    public Date Apps.getSandbox_mode_changed() {
-        return this.sandbox_mode_changed;
-    }
-    
-    public void Apps.setSandbox_mode_changed(Date sandbox_mode_changed) {
-        this.sandbox_mode_changed = sandbox_mode_changed;
-    }
-    
     public String Apps.getBundle_id() {
         return this.bundle_id;
     }

@@ -11,8 +11,9 @@
 package com.woomii.beta.de.helpers;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,13 +49,8 @@ public class DatabaseHelpers {
         }
 
 	 */
-	
-	public static void updateAppWithSandBoxMode(Apps app, boolean sandBoxMode) throws Exception {
-		app.setSandbox_mode(sandBoxMode);
-		app.setSandbox_mode_changed(new Date());
-		app.merge();
-	}
 
+	/*
 	public static void deleteAllTransactionsByAppIdInSandBox(Long appId) throws Exception {
 		List<Transactions> transactions = Transactions.entityManager().createQuery("SELECT o FROM Transactions o WHERE APP_ID = '" + appId + "' AND SANDBOX_MODE = 'true'", Transactions.class).getResultList();
 		Iterator<Transactions> i = transactions.iterator();
@@ -65,11 +61,11 @@ public class DatabaseHelpers {
 	}
 	
 	public static void deleteAllEndUsersByAppIdInSandBox(Long appId) throws Exception {
-		List<EndUsers> endUsers = EndUsers.entityManager().createQuery("SELECT o FROM EndUsers o WHERE APP_ID = '" + appId + "' AND SANDBOX_MODE = 'true'", EndUsers.class).getResultList();
+		List<EndUsers> endUsers = EndUsers.sandboxEntityManager().createQuery("SELECT o FROM EndUsers o WHERE APP_ID = '" + appId + "' AND SANDBOX_MODE = 'true'", EndUsers.class).getResultList();
 		Iterator<EndUsers> i = endUsers.iterator();
     	while(i.hasNext()) {
     		EndUsers user = i.next();
-    		user.remove();
+    		user.remove(true);
     	}
 	}
 	
@@ -90,61 +86,94 @@ public class DatabaseHelpers {
     		imp.remove();
     	}
 	}
+	*/
+		
+	private static EntityManager getAppsEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? Apps.sandboxEntityManager() : Apps.entityManager());
+	}
+
+	private static EntityManager getImpressionsEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? Impressions.sandboxEntityManager() : Impressions.entityManager());
+	}
+		
+	private static EntityManager getReferralsEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? Referrals.sandboxEntityManager() : Referrals.entityManager());
+	}
 	
-	public static Apps findAppByAppId(String appId) throws Exception {
-		try {
-			Apps app = Apps.entityManager().createQuery("SELECT o FROM Apps o WHERE APP_ID = '" + appId + "'", Apps.class).getSingleResult();
+	private static EntityManager getTransactionsEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? Transactions.sandboxEntityManager() : Transactions.entityManager());
+	}
+
+	private static EntityManager getEndUsersEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? EndUsers.sandboxEntityManager() : EndUsers.entityManager());		
+	}
+	
+	private static EntityManager getCampaignsEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? Campaigns.sandboxEntityManager() : Campaigns.entityManager());
+	}
+	
+	private static EntityManager getLanguagesEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? Languages.sandboxEntityManager() : Languages.entityManager());
+	}
+	
+	private static EntityManager getTranslationsEntityManager(boolean sandbox) throws Exception {
+		return (sandbox ? Translations.sandboxEntityManager() : Translations.entityManager());
+	}
+	
+	public static Apps findAppByAppId(String appId, boolean sandbox) throws Exception {
+		try {					
+			Apps app = getAppsEntityManager(sandbox).createQuery("SELECT o FROM Apps o WHERE APP_ID = '" + appId + "'", Apps.class).getSingleResult();
 			return app;
 		} catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_APPID_NOT_FOUND);
 		}		
 	}
 	
-	public static boolean findTransactionByUID_AAndUID_BAndCampaignAndAPPId(String uidA, String uidB, Long cmpId, Long appId) throws Exception {		
-        List<Transactions> transactions = Transactions.entityManager().createQuery("SELECT o FROM Transactions o WHERE UUID_A = '" + uidA + "' AND UUID_B = '" + uidB + "' AND APP_ID = '" + appId + "' AND CAMPAIGN_ID = '" + cmpId + "'", Transactions.class).getResultList();
+	public static boolean findTransactionByUID_AAndUID_BAndCampaignAndAPPId(String uidA, String uidB, Long cmpId, Long appId, boolean sandbox) throws Exception {				
+		List<Transactions> transactions = getTransactionsEntityManager(sandbox).createQuery("SELECT o FROM Transactions o WHERE UUID_A = '" + uidA + "' AND UUID_B = '" + uidB + "' AND APP_ID = '" + appId + "' AND CAMPAIGN_ID = '" + cmpId + "'", Transactions.class).getResultList();
         if (transactions == null || transactions.size() == 0) {
         	return false;
         }                
         return true;
 	}
 	
-	public static List<Transactions> findTransactionsByUUIDAndAPPId(String uuId, Long appId) throws Exception {
-        List<Transactions> transactions = Transactions.entityManager().createQuery("SELECT o FROM Transactions o WHERE UUID_A = '" + uuId + "' AND APP_ID = '" + appId + "'", Transactions.class).getResultList();
+	public static List<Transactions> findTransactionsByUUIDAndAPPId(String uuId, Long appId, boolean sandbox) throws Exception {				
+        List<Transactions> transactions = getTransactionsEntityManager(sandbox).createQuery("SELECT o FROM Transactions o WHERE UUID_A = '" + uuId + "' AND APP_ID = '" + appId + "'", Transactions.class).getResultList();
         if (transactions == null) {
         	throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTIONS_NOT_FOUND);
         }                
         return transactions;
 	}
 	
-	public static EndUsers findEndUserByUUIDAndAPPId(String uuId, Long appId) throws Exception {    	
-        EndUsers user = DatabaseHelpers.findUserByUuidAndAppId(uuId, appId);        
+	public static EndUsers findEndUserByUUIDAndAPPId(String uuId, Long appId, boolean sandbox) throws Exception {    	
+        EndUsers user = DatabaseHelpers.findUserByUuidAndAppId(uuId, appId, sandbox);        
         if (user == null) {
         	throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_UUID_NOT_FOUND);
         }                
         return user;
     } 
 
-	public static EndUsers findUserByUuidAndAppId(String uuId, Long appId) throws Exception {
-		try {
-			EndUsers users = EndUsers.entityManager().createQuery("SELECT o FROM EndUsers o WHERE UUID = '" + uuId + "' AND APP_ID = '" + appId + "'", EndUsers.class).getSingleResult();
+	public static EndUsers findUserByUuidAndAppId(String uuId, Long appId, boolean sandbox) throws Exception {
+		try {					
+			EndUsers users = getEndUsersEntityManager(sandbox).createQuery("SELECT o FROM EndUsers o WHERE UUID = '" + uuId + "' AND APP_ID = '" + appId + "'", EndUsers.class).getSingleResult();
 			return users;
 		} catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_UUID_NOT_FOUND);
 		}		
 	}
 
-	public static String findPINByUser(String uuId) throws Exception {
+	public static String findPINByUser(String uuId, boolean sandbox) throws Exception {
 		try {			
-			EndUsers user = EndUsers.entityManager().createQuery("SELECT o FROM EndUsers o WHERE UUID = '" + uuId + "'", EndUsers.class).getSingleResult();
+			EndUsers user = getEndUsersEntityManager(sandbox).createQuery("SELECT o FROM EndUsers o WHERE UUID = '" + uuId + "'", EndUsers.class).getSingleResult();
 			return user.getPin();
 		} catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_UUID_NOT_FOUND);
 		} 
 	}
 	
-	public static EndUsers findUserByPIN(String pin) throws Exception {
-		try {
-			EndUsers user = EndUsers.entityManager().createQuery("SELECT o FROM EndUsers o WHERE PIN = '" + pin + "'", EndUsers.class).getSingleResult();
+	public static EndUsers findUserByPIN(String pin, boolean sandbox) throws Exception {
+		try {			
+			EndUsers user = getEndUsersEntityManager(sandbox).createQuery("SELECT o FROM EndUsers o WHERE PIN = '" + pin + "'", EndUsers.class).getSingleResult();
 			return user;
 		} catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_UUID_NOT_FOUND);
@@ -159,13 +188,13 @@ public class DatabaseHelpers {
 		}		
 	}
 	
-	public static CreditsValues findTotalCreditsEarned(String uuId, Long appId) throws Exception {
+	public static CreditsValues findTotalCreditsEarned(String uuId, Long appId, boolean sandbox) throws Exception {
 		try {			
 			CreditsValues credits = new CreditsValues();						
     		/*
     		 * 4. CREDITS_EARNED = TOTAL_CREDITS_EARNED
     		 */
-			Long totalCreditsEarned = Transactions.entityManager().createQuery("SELECT SUM(o.credits_earned) FROM Transactions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Long.class).getSingleResult();
+			Long totalCreditsEarned = getTransactionsEntityManager(sandbox).createQuery("SELECT SUM(o.credits_earned) FROM Transactions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Long.class).getSingleResult();
 			if (totalCreditsEarned == null)
 				throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_NOT_FOUND);			    	
     		logger.debug("creditsEarned = " + totalCreditsEarned);
@@ -174,7 +203,7 @@ public class DatabaseHelpers {
     		/* 
     		 * 5. CREDITS_REDEEMED = TOTAL_CREDITS_REDEEMED
     		 */    		
-			Long totalCreditsRedeemed = Transactions.entityManager().createQuery("SELECT SUM(o.credits_redeemed) FROM Transactions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Long.class).getSingleResult();
+			Long totalCreditsRedeemed = getTransactionsEntityManager(sandbox).createQuery("SELECT SUM(o.credits_redeemed) FROM Transactions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Long.class).getSingleResult();
 			if (totalCreditsRedeemed == null)
 				throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_NOT_FOUND);			
     		logger.debug("creditsRedeemed = " + totalCreditsRedeemed);
@@ -187,24 +216,24 @@ public class DatabaseHelpers {
 		}		
 	}
 	
-	public static String findUserAByUserB(String uidB, Long cmpId, Long appId) throws Exception {
+	public static String findUserAByUserB(String uidB, Long cmpId, Long appId, boolean sandbox) throws Exception {
 		try {			
-			Referrals ref = Referrals.entityManager().createQuery("SELECT o FROM Referrals o WHERE UUID_B = '" + uidB + "' AND UUID_A != '" + uidB + "' AND CAMPAIGN_ID = '" + cmpId + "' AND APP_ID = '" + appId + "'", Referrals.class).getSingleResult();
+			Referrals ref = getReferralsEntityManager(sandbox).createQuery("SELECT o FROM Referrals o WHERE UUID_B = '" + uidB + "' AND UUID_A != '" + uidB + "' AND CAMPAIGN_ID = '" + cmpId + "' AND APP_ID = '" + appId + "'", Referrals.class).getSingleResult();
 			return ref.getUuid_a();
 		} catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_UUID_NOT_FOUND_IN_REFERRALS);
 		} 
 	}
 
-	public static List<Referrals> findReferralsByUID_A(String uidA, Long cmpId, Long appId) throws Exception {    	
-		List<Referrals> listReferrals = Referrals.entityManager().createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + appId + "' AND CAMPAIGN_ID = '" + cmpId + "' AND UUID_A = '" + uidA + "' AND UUID_B = ''", Referrals.class).getResultList();
+	public static List<Referrals> findReferralsByUID_A(String uidA, Long cmpId, Long appId, boolean sandbox) throws Exception {
+		List<Referrals> listReferrals = getReferralsEntityManager(sandbox).createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + appId + "' AND CAMPAIGN_ID = '" + cmpId + "' AND UUID_A = '" + uidA + "' AND UUID_B = ''", Referrals.class).getResultList();
 		return listReferrals;			
 	}
 	
-	public static boolean findReferralsByUID_AOrUID_B(String uuId, Long appId) throws Exception {
+	public static boolean findReferralsByUID_AOrUID_B(String uuId, Long appId, boolean sandbox) throws Exception {
 		List<Referrals> listReferrals;
 		try {
-			listReferrals = Referrals.entityManager().createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + appId + "' AND (UUID_A = '" + uuId + "' OR UUID_B = '" + uuId + "')", Referrals.class).getResultList();
+			listReferrals = getReferralsEntityManager(sandbox).createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + appId + "' AND (UUID_A = '" + uuId + "' OR UUID_B = '" + uuId + "')", Referrals.class).getResultList();
 		}
 		catch (Exception ex) {
 			logger.error(ex.getMessage());
@@ -216,20 +245,20 @@ public class DatabaseHelpers {
 			return true;
 	}
 
-	public static Referrals findReferralByUUIDAndAppIdAndCmpId(String uuId, Long app_id, Long cmpId) throws Exception {
-		Referrals ref = Referrals.entityManager().createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + app_id + "' AND UUID_A = '" + uuId + "' AND CAMPAIGN_ID = '" + cmpId + "'", Referrals.class).getSingleResult();
+	public static Referrals findReferralByUUIDAndAppIdAndCmpId(String uuId, Long app_id, Long cmpId, boolean sandbox) throws Exception {
+		Referrals ref = getReferralsEntityManager(sandbox).createQuery("SELECT o FROM Referrals o WHERE APP_ID = '" + app_id + "' AND UUID_A = '" + uuId + "' AND CAMPAIGN_ID = '" + cmpId + "'", Referrals.class).getSingleResult();
 		return ref;			
 	}
 
-	public static Impressions findImpressionByUUIDAndAppId(String uuId, Long appId) throws Exception {
-		Impressions imp = Impressions.entityManager().createQuery("SELECT o FROM Impressions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Impressions.class).getSingleResult();
+	public static Impressions findImpressionByUUIDAndAppId(String uuId, Long appId, boolean sandbox) throws Exception {
+		Impressions imp = getImpressionsEntityManager(sandbox).createQuery("SELECT o FROM Impressions o WHERE APP_ID = '" + appId + "' AND UUID_A = '" + uuId + "'", Impressions.class).getSingleResult();
 		return imp;			
 	}
 	
-	public static Campaigns findCampaignByAppId(Long appId) throws Exception {
+	public static Campaigns findCampaignByAppId(Long appId, boolean sandbox) throws Exception {
 		// find only active campaign
 		try {
-			Campaigns campaign = Campaigns.entityManager().createQuery("SELECT o FROM Campaigns o WHERE APP_ID = '" + appId + "' AND STATUS = 'true'", Campaigns.class).getSingleResult();
+			Campaigns campaign = getCampaignsEntityManager(sandbox).createQuery("SELECT o FROM Campaigns o WHERE APP_ID = '" + appId + "' AND STATUS = 'true'", Campaigns.class).getSingleResult();
 			return campaign;
 		}
 		catch (Exception ex) {
@@ -237,9 +266,9 @@ public class DatabaseHelpers {
 		}			
 	}
 	
-	public static Languages findLanguageIdByLangName(String lang) throws Exception {			
+	public static Languages findLanguageIdByLangName(String lang, boolean sandbox) throws Exception {			
 		try {
-			Languages language = Languages.entityManager().createQuery("SELECT o FROM Languages o WHERE CODE = '" + lang + "'", Languages.class).getSingleResult();		
+			Languages language = getLanguagesEntityManager(sandbox).createQuery("SELECT o FROM Languages o WHERE CODE = '" + lang + "'", Languages.class).getSingleResult();		
 			return language;
 		}
 		catch (Exception ex) {
@@ -247,10 +276,10 @@ public class DatabaseHelpers {
 		}
 	}
 
-	public static Translations findTranslationsByLangIdAndCampaignId(Long cmpId, String lang) throws Exception {
-		Languages language = findLanguageIdByLangName(lang);
+	public static Translations findTranslationsByLangIdAndCampaignId(Long cmpId, String lang, boolean sandbox) throws Exception {
+		Languages language = findLanguageIdByLangName(lang, sandbox);
 		try {						
-			Translations translation = Translations.entityManager().createQuery("SELECT o FROM Translations o WHERE CAMPAIGN_ID = '" + cmpId + "' AND LANGUAGE_ID = '" + language.getId() + "'", Translations.class).getSingleResult();		
+			Translations translation = getTranslationsEntityManager(sandbox).createQuery("SELECT o FROM Translations o WHERE CAMPAIGN_ID = '" + cmpId + "' AND LANGUAGE_ID = '" + language.getId() + "'", Translations.class).getSingleResult();		
 			return translation;		
 		}
 		catch (Exception ex) {
@@ -269,65 +298,81 @@ public class DatabaseHelpers {
 		return referral;
 	}
 	
-	public static void makeAssociationOfUserAAndUserB(String uidA, String uidB, Campaigns cmp, String uaB, Apps app) throws Exception {
+	public static void makeAssociationOfUserAAndUserB(String uidA, String uidB, Campaigns cmp, String uaB, Apps app, boolean sandbox) throws Exception {
 		Referrals referral = associationOfUserAAndUserB(uidA, uidB, cmp, uaB, app);
-		referral.merge();
+		if (sandbox)
+			referral.mergeSandbox();
+		else
+			referral.mergeProduction();
 	}
 
-	public static void insertTransaction(String uidA, String uidB, Campaigns cmp, Apps app, int creditsEarned, int creditsRedeemed, TransactionType type) throws Exception {
+	public static void insertTransaction(String uidA, 
+									     String uidB, 
+									     Campaigns cmp, 
+									     Apps app, 
+									     int creditsEarned, 
+									     int creditsRedeemed, 
+									     TransactionType type,
+									     boolean sandbox) throws Exception {
 		if (type == TransactionType.INSTALLATION) {
 			//SUCH RECORDS SHOULD BE INSERTED ONLY ONCE from the same UID_A and UID_B in order to prevent attacks!!! 
 			//This means that prior inserting such a record a check for INSTALLATION, APPID, CAMPAIGNID, UID_B==UUID && UID_A==UID_A should be done!
-			if (findTransactionByUID_AAndUID_BAndCampaignAndAPPId(uidA, uidB, app.getId(), cmp.getId())) {
+			if (findTransactionByUID_AAndUID_BAndCampaignAndAPPId(uidA, uidB, app.getId(), cmp.getId(), sandbox)) {
 				throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_TRANSACTION_WITH_SAME_USERA_AND_USERB_FOUND);
 			}
 		}
 		Transactions transaction = new Transactions();
-		transaction.setSandbox_mode(app.getSandbox_mode());
 		transaction.setCampaign(cmp);
 		transaction.setApp(app);
 		transaction.setUuid_a(uidA);
 		transaction.setUuid_b(uidB);
 		transaction.setType(type);
 		transaction.setCredits_redeemed(creditsRedeemed);
-		transaction.setCredits_earned(creditsEarned);			
-		transaction.merge();
+		transaction.setCredits_earned(creditsEarned);
+		if (sandbox)
+			transaction.mergeSandbox();
+		else
+			transaction.mergeProduction();
 	}
 	
-	public static void insertUser(String uuId, Apps app) throws Exception {
+	public static void insertUser(String uuId, Apps app, boolean sandbox) throws Exception {
 		EndUsers user = new EndUsers();
 		user.setApp(app);
 		user.setUuid(uuId);
 		user.setPin(WooMiiUtils.getRandomPIN());
-		user.setApp_installed(true);
-		user.setSandbox_mode(app.getSandbox_mode());
-		user.merge();
+		user.setApp_installed(true);		
+		if (sandbox)
+			user.mergeSandbox();		
+		else
+			user.mergeProduction();
 	}
 
-	public static void insertImpression(String uuId, Apps app, String affId, Campaigns cmp, boolean clicked) throws Exception {
+	public static void insertImpression(String uuId, Apps app, String affId, Campaigns cmp, boolean clicked, boolean sandbox) throws Exception {
 		Impressions imp = null;
 		try {
-			imp = findImpressionByUUIDAndAppId(uuId, app.getId());
+			imp = findImpressionByUUIDAndAppId(uuId, app.getId(), sandbox);
 		}
 		catch (Exception ex) {
 			if (imp == null) {
 				imp = new Impressions();	
 			}
 		}
-		imp.setSandbox_mode(app.getSandbox_mode());
 		imp.setApp(app);
 		imp.setUuid_a(uuId);
 		imp.setCampaign(cmp);
 		imp.setClicked(clicked);
 		imp.setCreated(new Date());
-		imp.merge();
+		if (sandbox)
+			imp.mergeSandbox();
+		else
+			imp.mergeProduction();
 	}
 	
-	public static void insertReferral(String uuId, Apps app, String affId, Campaigns cmp, String uidB, String uaB, short suggestedFriends) throws Exception {
+	public static void insertReferral(String uuId, Apps app, String affId, Campaigns cmp, String uidB, String uaB, short suggestedFriends, boolean sandbox) throws Exception {
 		Referrals ref = null;
 		try {
 			if (app != null) {
-				ref = findReferralByUUIDAndAppIdAndCmpId(uuId, app.getId(), cmp.getId());
+				ref = findReferralByUUIDAndAppIdAndCmpId(uuId, app.getId(), cmp.getId(), sandbox);
 			}
 		}
 		catch (Exception ex) {
@@ -335,7 +380,6 @@ public class DatabaseHelpers {
 				ref = new Referrals();
 			}
 		}		
-		ref.setSandbox_mode(app.getSandbox_mode());
 		ref.setAff_id(affId);
 		ref.setApp(app);
 		ref.setCampaign(cmp);
@@ -344,7 +388,10 @@ public class DatabaseHelpers {
 		ref.setUa_b(uaB);
 		ref.setUuid_a(uuId);
 		ref.setUuid_b(uidB);					
-		ref.merge();			
+		if (sandbox)
+			ref.mergeSandbox();
+		else
+			ref.mergeProduction();
 	}
 	
 }

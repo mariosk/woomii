@@ -47,16 +47,6 @@ public class Apps {
 
     /**
      */
-    private Boolean sandbox_mode;
-
-    /**
-     */
-    @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "M-")
-    private Date sandbox_mode_changed;
-
-    /**
-     */
     @NotNull
     @Size(max = 64)
     private String bundle_id;

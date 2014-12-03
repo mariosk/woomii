@@ -40,7 +40,6 @@ privileged aspect TransactionsDataOnDemand_Roo_DataOnDemand {
         setCreated(obj, index);
         setCredits_earned(obj, index);
         setCredits_redeemed(obj, index);
-        setSandbox_mode(obj, index);
         setType(obj, index);
         setUuid_a(obj, index);
         setUuid_b(obj, index);
@@ -60,11 +59,6 @@ privileged aspect TransactionsDataOnDemand_Roo_DataOnDemand {
     public void TransactionsDataOnDemand.setCredits_redeemed(Transactions obj, int index) {
         int credits_redeemed = index;
         obj.setCredits_redeemed(credits_redeemed);
-    }
-    
-    public void TransactionsDataOnDemand.setSandbox_mode(Transactions obj, int index) {
-        Boolean sandbox_mode = Boolean.TRUE;
-        obj.setSandbox_mode(sandbox_mode);
     }
     
     public void TransactionsDataOnDemand.setType(Transactions obj, int index) {

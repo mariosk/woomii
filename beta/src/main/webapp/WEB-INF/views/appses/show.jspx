@@ -5,8 +5,6 @@
     <page:show id="ps_com_woomii_beta_frontend_apps_Apps" object="${apps}" path="/appses" z="MQ5A1W9nniFTG5j4emUSsjZZ0bI=">
         <field:display field="app_id" id="s_com_woomii_beta_frontend_apps_Apps_app_id" object="${apps}" z="SFBdU05GuC5919GUOQZGnrCF1rc="/>
         <field:display field="customer" id="s_com_woomii_beta_frontend_apps_Apps_customer" object="${apps}" z="AXo5eNPzkOeQjoQlNYzdc3gUKnA="/>
-        <field:display field="sandbox_mode" id="s_com_woomii_beta_frontend_apps_Apps_sandbox_mode" object="${apps}" z="CR5h+k0yhnfMc5Mha5fW6mkeQa0="/>
-        <field:display date="true" dateTimePattern="${apps_sandbox_mode_changed_date_format}" field="sandbox_mode_changed" id="s_com_woomii_beta_frontend_apps_Apps_sandbox_mode_changed" object="${apps}" z="YffWp7PmaMBGvtLF1TAIK9e4lEI="/>
         <field:display field="bundle_id" id="s_com_woomii_beta_frontend_apps_Apps_bundle_id" object="${apps}" z="NChJ6YRR7cOg0ibpPJ5t31dA7Rc="/>
         <field:display field="sdk_version" id="s_com_woomii_beta_frontend_apps_Apps_sdk_version" object="${apps}" z="qoeGD/AZZo/47GzuWdqT8MzYAuk="/>
         <field:display field="rate" id="s_com_woomii_beta_frontend_apps_Apps_rate" object="${apps}" z="XZsDOJDy3XPov3syVFvlmwUS8Mc="/>

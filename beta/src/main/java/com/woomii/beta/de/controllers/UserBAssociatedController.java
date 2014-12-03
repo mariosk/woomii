@@ -41,22 +41,27 @@ public class UserBAssociatedController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserBAssociatedController.class);
     
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> UserBAssociatedSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+		return UserBAssociated(jsonRequestBody, userAgent, true);
+	}
+	
 	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> UserBAssociated(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+    public ResponseEntity<String> UserBAssociated(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
 		HttpHeaders headers = new HttpHeaders();
         RespErrorParams errorResponse = new RespErrorParams();
                 
         try {        	
             ReqUserBAssociatedParams params = (ReqUserBAssociatedParams) WooMiiUtils.fromJson(jsonRequestBody, ReqUserBAssociatedParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)        	
         		return response;
     		        	         
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);
         	/*
         	 * 1. Retrieves UID_A from PIN.
         	 */
-    		EndUsers userA = DatabaseHelpers.findUserByPIN(params.getPin());
+    		EndUsers userA = DatabaseHelpers.findUserByPIN(params.getPin(), sandbox);
     		if (userA == null) {
     			errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_USER_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
@@ -74,14 +79,21 @@ public class UserBAssociatedController {
 			 * ii. SUCH RECORDS SHOULD BE INSERTED ONLY ONCE!!! This means that prior inserting such a record a check for INSTALLATION && UID_B==UUID && UID_A==UID_A should be done!
 			 * iii. sends a PUSH NOTIFICATION to UID_A $PUSH_MSG_AFTER_INSTALLATION (e.g.“You just earned $CREDITS_EARN_AT_INSTALLATION_USER_A credits from a friend who installed the APP”).
         	 */
-    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
+    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId(), sandbox);
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 			}
 			
 			if (cmp.getCredits_earn_at_installation_usera() > 0) {
-				DatabaseHelpers.insertTransaction(uidA, params.getUuId(), cmp, app, cmp.getCredits_earn_at_installation_usera(), 0, TransactionType.INSTALLATION);
+				DatabaseHelpers.insertTransaction(uidA, 
+												  params.getUuId(), 
+												  cmp, 
+												  app, 
+												  cmp.getCredits_earn_at_installation_usera(), 
+												  0, 
+												  TransactionType.INSTALLATION,
+												  sandbox);
 			}				        	        
 			
 			RespCommonParams respParams = new RespCommonParams();

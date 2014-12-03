@@ -10,6 +10,5 @@
         <field:select field="type" id="c_com_woomii_beta_backend_transactions_Transactions_type" items="${transactiontypes}" path="transactiontypes" z="dys5n+pHsDonOniAxer4Mh/ZhBY="/>
         <field:input field="credits_earned" id="c_com_woomii_beta_backend_transactions_Transactions_credits_earned" z="wm11wQHIuqW0AXW2PxK/h19UZkM="/>
         <field:input field="credits_redeemed" id="c_com_woomii_beta_backend_transactions_Transactions_credits_redeemed" z="TLDwg94CEcz7fWiR4oIFyx52YHc="/>
-        <field:checkbox field="sandbox_mode" id="c_com_woomii_beta_backend_transactions_Transactions_sandbox_mode" z="bMU7AmgI17RcOZGSv5DU78fN5ws="/>
     </form:update>
 </div>

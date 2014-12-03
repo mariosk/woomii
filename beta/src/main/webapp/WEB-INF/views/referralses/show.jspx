@@ -10,6 +10,5 @@
         <field:display field="uuid_b" id="s_com_woomii_beta_backend_referrals_Referrals_uuid_b" object="${referrals}" z="U8KGBH2I9Wex90dAWg23whHj20o="/>
         <field:display field="ua_b" id="s_com_woomii_beta_backend_referrals_Referrals_ua_b" object="${referrals}" z="5vJIviVDZu53PiGjh4kvElyB1Ms="/>
         <field:display field="suggested_friends" id="s_com_woomii_beta_backend_referrals_Referrals_suggested_friends" object="${referrals}" z="QJKgXGwj0sdPCaZOa8ML1Swp6YI="/>
-        <field:display field="sandbox_mode" id="s_com_woomii_beta_backend_referrals_Referrals_sandbox_mode" object="${referrals}" z="E0hovei22mA/IPINzOM8O+D2Y9Q="/>
     </page:show>
 </div>

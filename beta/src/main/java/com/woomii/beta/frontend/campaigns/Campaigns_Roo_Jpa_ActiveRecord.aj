@@ -11,16 +11,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Campaigns_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+    @PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Campaigns.entityManager;
-    
-    public static final List<String> Campaigns.fieldNames4OrderClauseFilter = java.util.Arrays.asList("app", "status", "area_enabled", "launch_date", "expiration_date", "credits_expiration_date", "when_to_change_demographics", "num_of_credits_threshold", "num_of_credits", "num_of_referrals_threshold", "num_of_referrals", "name", "currency", "credits_earn_at_installation_usera", "credits_earn_at_installation_userb", "credits_earn_at_transaction", "rgbcolor");
-    
+
+    @PersistenceContext(unitName="persistenceUnitSandbox")
+    transient EntityManager Campaigns.sandboxEntityManager;
+
     public static final EntityManager Campaigns.entityManager() {
         EntityManager em = new Campaigns().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
+    
+    public static final EntityManager Campaigns.sandboxEntityManager() {
+        EntityManager em = new Campaigns().sandboxEntityManager;
+        if (em == null) throw new IllegalStateException("Sandbox entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static final List<String> Campaigns.fieldNames4OrderClauseFilter = java.util.Arrays.asList("app", "status", "area_enabled", "launch_date", "expiration_date", "credits_expiration_date", "when_to_change_demographics", "num_of_credits_threshold", "num_of_credits", "num_of_referrals_threshold", "num_of_referrals", "name", "currency", "credits_earn_at_installation_usera", "credits_earn_at_installation_userb", "credits_earn_at_transaction", "rgbcolor");
     
     public static long Campaigns.countCampaignses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Campaigns o", Long.class).getSingleResult();

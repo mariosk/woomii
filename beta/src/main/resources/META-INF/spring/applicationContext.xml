@@ -47,7 +47,7 @@
         <context:exclude-filter expression=".*_Roo_.*" type="regex"/>
         <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
     </context:component-scan>
-    <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
+    <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSourceProduction">
         <property name="driverClassName" value="${database.driverClassName}"/>
         <property name="url" value="${database.url}"/>
         <property name="username" value="${database.username}"/>
@@ -60,12 +60,34 @@
         <property name="minEvictableIdleTimeMillis" value="1800000"/>
         <property name="validationQuery" value="SELECT version();"/>
     </bean>
-    <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManager">
-        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManagerProduction">
+        <property name="entityManagerFactory" ref="emf"/>
     </bean>
-    <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
-    <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
-        <property name="persistenceUnitName" value="persistenceUnit"/>
-        <property name="dataSource" ref="dataSource"/>
+    <tx:annotation-driven mode="aspectj" transaction-manager="transactionManagerProduction"/>
+    <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="emf">
+        <property name="persistenceUnitName" value="persistenceUnitProduction"/>
+        <property name="dataSource" ref="dataSourceProduction"/>
+    </bean>
+    
+    <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSourceSandbox">
+        <property name="driverClassName" value="${database.driverClassName}"/>
+        <property name="url" value="${database.sandbox.url}"/>
+        <property name="username" value="${database.sandbox.username}"/>
+        <property name="password" value="${database.sandbox.password}"/>
+        <property name="testOnBorrow" value="true"/>
+        <property name="testOnReturn" value="true"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="1800000"/>
+        <property name="numTestsPerEvictionRun" value="3"/>
+        <property name="minEvictableIdleTimeMillis" value="1800000"/>
+        <property name="validationQuery" value="SELECT version();"/>
+    </bean>
+    <bean class="org.springframework.orm.jpa.JpaTransactionManager" id="transactionManagerSandbox">
+        <property name="entityManagerFactory" ref="emfSandbox"/>
+    </bean>
+    <tx:annotation-driven mode="aspectj" transaction-manager="transactionManagerSandbox"/>
+    <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="emfSandbox">
+        <property name="persistenceUnitName" value="persistenceUnitSandbox"/>
+        <property name="dataSource" ref="dataSourceSandbox"/>
     </bean>
 </beans>

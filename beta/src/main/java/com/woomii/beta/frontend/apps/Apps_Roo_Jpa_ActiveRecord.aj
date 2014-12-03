@@ -11,14 +11,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Apps_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+    @PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Apps.entityManager;
+
+    @PersistenceContext(unitName="persistenceUnitSandbox")
+    transient EntityManager Apps.sandboxEntityManager;
     
     public static final List<String> Apps.fieldNames4OrderClauseFilter = java.util.Arrays.asList("app_id", "customer", "sandbox_mode", "sandbox_mode_changed", "bundle_id", "sdk_version", "created", "rate", "description", "logo");
     
     public static final EntityManager Apps.entityManager() {
         EntityManager em = new Apps().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static final EntityManager Apps.sandboxEntityManager() {
+        EntityManager em = new Apps().sandboxEntityManager;
+        if (em == null) throw new IllegalStateException("Sandbox entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     

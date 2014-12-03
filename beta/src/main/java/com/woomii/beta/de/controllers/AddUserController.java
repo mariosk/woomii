@@ -51,23 +51,28 @@ public class AddUserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(AddUserController.class);
     
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> AddUserSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {		
+		return AddUser(jsonRequestBody, userAgent, true);
+	}
+	
 	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> AddUser(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+    public ResponseEntity<String> AddUser(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
 		HttpHeaders headers = new HttpHeaders();
         RespErrorParams errorResponse = new RespErrorParams();
                 
         try {
             ReqCommonParams params = (ReqCommonParams) WooMiiUtils.fromJson(jsonRequestBody, ReqCommonParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
     		        	   
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);
         	/*
         	 * 1. This API call inserts the user in the USERS table and makes APP_INSTALLED = TRUE. 
         	 * If the user exists already no new change exist in the database.
         	 */
-	        DatabaseHelpers.insertUser(params.getUuId(), app);
+	        DatabaseHelpers.insertUser(params.getUuId(), app, sandbox);
 	        
 	        /*
 	         * 2. A search in the CAMPAIGNS table should be done in order to find out whether 
@@ -76,14 +81,14 @@ public class AddUserController {
 	         * 
 	         */
 	        RespAddUserParams respParams = new RespAddUserParams();
-	        Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
+	        Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId(), sandbox);
 			if (cmp == null) {
 				respParams.setShowPINPopup(false);	
 	        }
 			else {
 				logger.debug(cmp.toString());
 				respParams.setShowPINPopup(true);
-				Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang());
+				Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang(), sandbox);
 		        if (translation != null) {
 		        	respParams.setEnterPinMsg(translation.getEnter_pin_msg());
 		        }		        

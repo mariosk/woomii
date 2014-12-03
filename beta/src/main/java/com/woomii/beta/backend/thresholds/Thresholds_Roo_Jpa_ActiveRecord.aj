@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Thresholds_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+	@PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Thresholds.entityManager;
     
     public static final List<String> Thresholds.fieldNames4OrderClauseFilter = java.util.Arrays.asList("max_referrals", "max_credits");

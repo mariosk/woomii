@@ -24,11 +24,14 @@ public class ControllersHelpers {
 	private static final Logger logger = LoggerFactory.getLogger(ControllersHelpers.class);
 	
 	public static ResponseEntity<String> CheckCommonParams(HttpHeaders headers, 
-														   RespErrorParams errorResponse, 
+														   RespErrorParams errorResponse,
+														   boolean sandbox,
 														   String userAgent, 
 														   String uuId, String appId) throws Exception {
 
 		headers.add("Content-Type", "application/json");
+		
+		logger.debug("=======--- {} CLIENT REQUEST :: USER-AGENT: '{}' ---=======", sandbox ? "SANDBOX" : "PRODUCTION", userAgent);
 
         /* 1. If [UA is not either Android or iOS] then return an ERROR_STR that this URL works ONLY in a mobile device (android or iOS). */
         if (!userAgent.contains(WooMiiUtils.ANDROID_UA) && !userAgent.contains(WooMiiUtils.IPHONE_UA)) {
@@ -39,7 +42,7 @@ public class ControllersHelpers {
 		if (!WooMiiUtils.isStringValid(uuId) || !WooMiiUtils.isStringValid(appId))			
 			return new ResponseEntity<String>(headers, HttpStatus.UNPROCESSABLE_ENTITY);
 		
-		logger.debug("Welcome! The client requested with params: UUID:{}, APPID:{}", uuId, appId);
+		logger.debug("CLIENT REQUEST WITH PARAMS: UUID:{}, APPID:{}", uuId, appId);
 		
 		return null;
 	}

@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.persistence.Lob;
 
 import org.springframework.roo.classpath.operations.jsr303.RooUploadedFile;
 import org.springframework.roo.addon.json.RooJson;
@@ -54,7 +53,6 @@ public class Customers {
     /**
      */
     @RooUploadedFile(contentType = "image/jpeg")
-    //@Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] logo;
 }

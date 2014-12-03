@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Areas_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+	@PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Areas.entityManager;
     
     public static final List<String> Areas.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "lat1", "lng1", "lat2", "lng2", "lat3", "lng3", "lat4", "lng4");

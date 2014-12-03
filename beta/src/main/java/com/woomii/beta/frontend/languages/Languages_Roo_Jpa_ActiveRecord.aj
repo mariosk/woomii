@@ -11,16 +11,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Languages_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+    @PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Languages.entityManager;
-    
-    public static final List<String> Languages.fieldNames4OrderClauseFilter = java.util.Arrays.asList("code", "name");
-    
+
+    @PersistenceContext(unitName="persistenceUnitSandbox")
+    transient EntityManager Languages.sandBoxEntityManager;
+
     public static final EntityManager Languages.entityManager() {
         EntityManager em = new Languages().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        if (em == null) throw new IllegalStateException("Production Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
+    
+    public static final EntityManager Languages.sandboxEntityManager() {
+        EntityManager em = new Languages().sandBoxEntityManager;
+        if (em == null) throw new IllegalStateException("Sandbox Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+    
+    public static final List<String> Languages.fieldNames4OrderClauseFilter = java.util.Arrays.asList("code", "name");
     
     public static long Languages.countLanguageses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Languages o", Long.class).getSingleResult();

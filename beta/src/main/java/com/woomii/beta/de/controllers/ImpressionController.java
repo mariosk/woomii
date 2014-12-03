@@ -39,28 +39,33 @@ public class ImpressionController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ImpressionController.class);
     
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> ImpressionSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+		return Impression(jsonRequestBody, userAgent, true);
+	}
+
 	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> Impression(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+    public ResponseEntity<String> Impression(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
 		HttpHeaders headers = new HttpHeaders();
         RespErrorParams errorResponse = new RespErrorParams();
                 
         try {        	
             ReqImpressionParams params = (ReqImpressionParams) WooMiiUtils.fromJson(jsonRequestBody, ReqImpressionParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
     		        	                 	
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);
         	/*
         	 * 1. This API call inserts a record in IMPRESSIONS table generating also the timestamp that this impression took place. 
         	 */
-    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
+    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId(), sandbox);
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 			}
 			logger.debug(cmp.toString());
-	        DatabaseHelpers.insertImpression(params.getUuId(), app, params.getAffId(), cmp, params.getClicked());
+	        DatabaseHelpers.insertImpression(params.getUuId(), app, params.getAffId(), cmp, params.getClicked(), sandbox);
 
 	        /*
 	         * 2. If (CLICKED==TRUE) then server should construct the URL that will be send to User-B from User-A. 
@@ -71,7 +76,7 @@ public class ImpressionController {
 	         */
 	        RespImpressionParams respParams = new RespImpressionParams();
 	        if (params.getClicked()) {		        
-		        String pin = DatabaseHelpers.findPINByUser(params.getUuId());
+		        String pin = DatabaseHelpers.findPINByUser(params.getUuId(), sandbox);
 	        	String cmpName = cmp.getName();
 	        	respParams.setUrl(WooMiiUtils.WooMii_SERVER_URI + "/" + cmpName + "?appid=" + params.getAppId() + "&pin=" + pin);		        
 	        }	        	        	        	        	        	        	        			     

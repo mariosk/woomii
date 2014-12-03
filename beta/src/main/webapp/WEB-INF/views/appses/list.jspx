@@ -6,10 +6,10 @@
         <table:table data="${appses}" id="l_com_woomii_beta_frontend_apps_Apps" path="/appses" z="EePr0x7HZxV3AJ8xXQlSAEySkMc=">
             <table:column id="c_com_woomii_beta_frontend_apps_Apps_app_id" property="app_id" z="asp96khGGKjKmboHq2jPm1UQZ/Y="/>
             <table:column id="c_com_woomii_beta_frontend_apps_Apps_customer" property="customer" z="q0e9TxxSmLKTFQmZqwnEUt5b0Mo="/>
-            <table:column id="c_com_woomii_beta_frontend_apps_Apps_sandbox_mode" property="sandbox_mode" z="GDcfBQtawIfo27UhyPPYyhvOw2w="/>
-            <table:column date="true" dateTimePattern="${apps_sandbox_mode_changed_date_format}" id="c_com_woomii_beta_frontend_apps_Apps_sandbox_mode_changed" property="sandbox_mode_changed" z="4tvjzt0fsBHBoN+cdJX6oeAzMYI="/>
             <table:column id="c_com_woomii_beta_frontend_apps_Apps_bundle_id" property="bundle_id" z="l2eNFC5I6ITQD9vYyyL6AqRhSEk="/>
             <table:column id="c_com_woomii_beta_frontend_apps_Apps_sdk_version" property="sdk_version" z="pqjhM9QHVhYgg3MrXTl8qWQPGfI="/>
+            <table:column date="true" dateTimePattern="${apps_created_date_format}" id="c_com_woomii_beta_frontend_apps_Apps_created" property="created" z="pSklZXmulOY5D+UVzBvIj70hfJg="/>
+            <table:column id="c_com_woomii_beta_frontend_apps_Apps_rate" property="rate" z="a/w+51n3h7RepJtin/6fSEfQYPw="/>
         </table:table>
     </page:list>
 </div>

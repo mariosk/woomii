@@ -40,32 +40,44 @@ public class ReferralController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReferralController.class);
     
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> ReferralSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+		return Referral(jsonRequestBody, userAgent, true);
+	}
+	
 	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> Referral(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+    public ResponseEntity<String> Referral(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
 		HttpHeaders headers = new HttpHeaders();
         RespErrorParams errorResponse = new RespErrorParams();
                 
         try {
             ReqReferralParams params = (ReqReferralParams) WooMiiUtils.fromJson(jsonRequestBody, ReqReferralParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
     		    
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);
         	/*
         	 * 1. This API call inserts a record in REFERRALS table generating also the timestamp that this referral took place.
         	 * 2. When User-A clicks on SEND, Referral API call inserts a record in REFERRALS table with empty UID_B.
         	 */
-    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId());
+    		Campaigns cmp = DatabaseHelpers.findCampaignByAppId(app.getId(), sandbox);
 			if (cmp == null) {
 				errorResponse.seterrC(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND.ordinal());
 				return new ResponseEntity<String>(WooMiiUtils.toJsonString(errorResponse), headers, HttpStatus.BAD_REQUEST);
 			}
 			logger.debug(cmp.toString());
-	        DatabaseHelpers.insertReferral(params.getUuId(), app, params.getAffId(), cmp, params.getUidB(), params.getUaB(), params.getSuggestedFriends());
+	        DatabaseHelpers.insertReferral(params.getUuId(), 
+	        							   app, 
+	        							   params.getAffId(), 
+	        							   cmp, 
+	        							   params.getUidB(), 
+	        							   params.getUaB(), 
+	        							   params.getSuggestedFriends(),
+	        							   sandbox);
 
 	        RespReferralParams respParams = new RespReferralParams();
-	        Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang());
+	        Translations translation = DatabaseHelpers.findTranslationsByLangIdAndCampaignId(cmp.getId(), params.getLang(), sandbox);
 	        if (translation != null) {
 	        	respParams.setReferralDoneMsg(translation.getReferral_done_msg());
 	        }

@@ -19,7 +19,8 @@ public class WooMiiCronWorker implements Worker {
 
 	protected static Logger logger = Logger.getLogger("worker");
 	protected static ApplicationContext context = new ClassPathXmlApplicationContext("/META-INF/spring/applicationContext.xml");
-	protected static BasicDataSource bs = (BasicDataSource) context.getBean("dataSource");
+	protected static BasicDataSource bsProduction = (BasicDataSource) context.getBean("dataSourceProduction");
+	protected static BasicDataSource bsSandbox = (BasicDataSource) context.getBean("dataSourceSandbox");
 
 	public void work() {		
 		logger.info("Thread has began working.");		

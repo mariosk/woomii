@@ -171,7 +171,7 @@ privileged aspect ApplicationConversionServiceFactoryBean_Roo_ConversionService 
     public Converter<Apps, String> ApplicationConversionServiceFactoryBean.getAppsToStringConverter() {
         return new org.springframework.core.convert.converter.Converter<com.woomii.beta.frontend.apps.Apps, java.lang.String>() {
             public String convert(Apps apps) {
-                return new StringBuilder().append(apps.getApp_id()).append(' ').append(apps.getSandbox_mode_changed()).append(' ').append(apps.getBundle_id()).append(' ').append(apps.getSdk_version()).toString();
+                return new StringBuilder().append(apps.getApp_id()).append(' ').append(apps.getBundle_id()).append(' ').append(apps.getSdk_version()).append(' ').append(apps.getCreated()).toString();
             }
         };
     }

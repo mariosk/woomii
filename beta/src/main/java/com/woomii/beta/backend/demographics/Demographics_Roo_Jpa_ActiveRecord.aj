@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Demographics_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+	@PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Demographics.entityManager;
     
     public static final List<String> Demographics.fieldNames4OrderClauseFilter = java.util.Arrays.asList("enduser", "sex", "age", "name", "fb_id", "mobile", "email");

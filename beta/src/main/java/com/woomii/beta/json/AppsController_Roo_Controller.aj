@@ -90,7 +90,6 @@ privileged aspect AppsController_Roo_Controller {
     }
     
     void AppsController.addDateTimeFormatPatterns(Model uiModel) {
-        uiModel.addAttribute("apps_sandbox_mode_changed_date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
         uiModel.addAttribute("apps_created_date_format", DateTimeFormat.patternForStyle("M-", LocaleContextHolder.getLocale()));
     }
     

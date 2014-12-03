@@ -39,18 +39,23 @@ public class PaymentInitController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PaymentInitController.class);
     
+	@RequestMapping(value = "/sandbox/", headers = "Accept=application/json", method = RequestMethod.PUT)
+	public ResponseEntity<String> PaymentInitSandbox(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+		return PaymentInit(jsonRequestBody, userAgent, true);
+	}
+	
 	@RequestMapping(value = "/", headers = "Accept=application/json", method = RequestMethod.PUT)
-    public ResponseEntity<String> PaymentInit(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent) {
+    public ResponseEntity<String> PaymentInit(@RequestBody String jsonRequestBody, @RequestHeader(value="User-Agent") String userAgent, boolean sandbox) {
 		HttpHeaders headers = new HttpHeaders();
         RespErrorParams errorResponse = new RespErrorParams();
                 
         try {
             ReqPaymentInitParams params = (ReqPaymentInitParams) WooMiiUtils.fromJson(jsonRequestBody, ReqPaymentInitParams.class);
-        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, userAgent, params.getUuId(), params.getAppId());
+        	ResponseEntity<String> response = ControllersHelpers.CheckCommonParams(headers, errorResponse, sandbox, userAgent, params.getUuId(), params.getAppId());
         	if (response != null)
         		return response;
     		        	    
-        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId());
+        	Apps app = DatabaseHelpers.findAppByAppId(params.getAppId(), sandbox);
         	/*
 			 * 1. Find the rate of the Currency and Credits, from the APPS table by using the APP_ID.
         	 */
@@ -62,7 +67,7 @@ public class PaymentInitController {
     		/*
     		 * 2. Search in TRANSACTIONS table with APP_ID and UID_A==UUID.
     		 */
-    		CreditsValues credits = DatabaseHelpers.findTotalCreditsEarned(params.getUuId(), app.getId());
+    		CreditsValues credits = DatabaseHelpers.findTotalCreditsEarned(params.getUuId(), app.getId(), sandbox);
     		    	
     		/*
     		 * 3. CREDITS_NEEDED = APP_COST/RATE

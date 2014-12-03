@@ -8,6 +8,5 @@
         <field:display field="aff_id" id="s_com_woomii_beta_backend_impressions_Impressions_aff_id" object="${impressions}" z="a22jVbd0lOyY3jugdKVzj578l2U="/>
         <field:display field="uuid_a" id="s_com_woomii_beta_backend_impressions_Impressions_uuid_a" object="${impressions}" z="jjiQYr6k11l8ICc0E5HZs5PDEW4="/>
         <field:display field="clicked" id="s_com_woomii_beta_backend_impressions_Impressions_clicked" object="${impressions}" z="aXSsTAi8CvXcxBl8UaMGWNl8Mm8="/>
-        <field:display field="sandbox_mode" id="s_com_woomii_beta_backend_impressions_Impressions_sandbox_mode" object="${impressions}" z="oFezcEGAlh8Bkx+wzuC9+sByznw="/>
     </page:show>
 </div>

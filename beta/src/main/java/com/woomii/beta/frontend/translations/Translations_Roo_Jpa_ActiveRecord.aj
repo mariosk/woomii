@@ -11,17 +11,26 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Translations_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext
+	@PersistenceContext(unitName="persistenceUnitProduction")
     transient EntityManager Translations.entityManager;
-    
-    public static final List<String> Translations.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "lang", "motto", "terms", "referral_done_msg", "referral_error_msg", "welcome_msg", "error_msg", "donation_msg", "donation_error_msg", "enter_pin_msg", "push_msg_after_installation");
+
+	@PersistenceContext(unitName="persistenceUnitSandbox")
+	transient EntityManager Translations.sandBoxEntityManager;
     
     public static final EntityManager Translations.entityManager() {
         EntityManager em = new Translations().entityManager;
-        if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        if (em == null) throw new IllegalStateException("Production Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
+        return em;
+    }
+	
+    public static final EntityManager Translations.sandboxEntityManager() {
+        EntityManager em = new Translations().sandBoxEntityManager;
+        if (em == null) throw new IllegalStateException("Sandbox Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
+    public static final List<String> Translations.fieldNames4OrderClauseFilter = java.util.Arrays.asList("campaign", "lang", "motto", "terms", "referral_done_msg", "referral_error_msg", "welcome_msg", "error_msg", "donation_msg", "donation_error_msg", "enter_pin_msg", "push_msg_after_installation");
+           
     public static long Translations.countTranslationses() {
         return entityManager().createQuery("SELECT COUNT(o) FROM Translations o", Long.class).getSingleResult();
     }

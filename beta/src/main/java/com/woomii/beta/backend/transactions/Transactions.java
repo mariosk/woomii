@@ -2,19 +2,29 @@ package com.woomii.beta.backend.transactions;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.tostring.RooToString;
+
 import com.woomii.beta.frontend.campaigns.Campaigns;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+
 import com.woomii.beta.frontend.apps.Apps;
+
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
 import com.woomii.beta.types.TransactionType;
+
 import javax.persistence.Enumerated;
+
 import org.springframework.roo.addon.json.RooJson;
 
 @RooJavaBean
@@ -65,8 +75,4 @@ public class Transactions {
     /**
      */
     private int credits_redeemed;
-
-    /**
-     */
-    private Boolean sandbox_mode;
 }

@@ -258,8 +258,11 @@ public class DatabaseHelpers {
 	public static Campaigns findCampaignByAppId(Long appId, boolean sandbox) throws Exception {
 		// find only active campaign
 		try {
-			Campaigns campaign = getCampaignsEntityManager(sandbox).createQuery("SELECT o FROM Campaigns o WHERE APP_ID = '" + appId + "' AND STATUS = 'true'", Campaigns.class).getSingleResult();
+			Campaigns campaign = getCampaignsEntityManager(sandbox).createQuery("SELECT o FROM Campaigns o WHERE APP_ID = '" + appId + "' AND STATUS = 'true' AND CREDITS_EXPIRATION_DATE >= clock_timestamp() AND EXPIRATION_DATE >= clock_timestamp()", Campaigns.class).getSingleResult();
 			return campaign;
+		}
+		catch (org.springframework.dao.EmptyResultDataAccessException nr) {
+			return null;
 		}
 		catch (Exception ex) {
 			throw new WooMiiException(WooMiiUtils.ERROR_CODES.ERROR_CAMPAIGN_NOT_FOUND);
